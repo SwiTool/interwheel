@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://bs176q10nx0xh"]
+
+[ext_resource type="Script" uid="uid://buudlk6uki4jc" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://72rj15ifgsb3" path="res://wall.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://cwtdwnfixk5vk" path="res://player.tscn" id="3_h2yge"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_0xm2m")
+
+[node name="wall3" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(-92, -180)
+
+[node name="wall4" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(92, -180)
+
+[node name="wall" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(-92, -20)
+
+[node name="wall2" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(92, -20)
+
+[node name="wall5" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(-92, -140)
+
+[node name="wall6" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(92, -140)
+
+[node name="wall7" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(-92, -100)
+
+[node name="wall8" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(92, -100)
+
+[node name="wall9" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(-92, -60)
+
+[node name="wall10" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(92, -60)
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(28, -68)
+
+[node name="Player" parent="." instance=ExtResource("3_h2yge")]
+position = Vector2(28, -68)
