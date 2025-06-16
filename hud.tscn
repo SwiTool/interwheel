@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bk75x265ktjwr"]
+[gd_scene load_steps=6 format=3 uid="uid://bk75x265ktjwr"]
 
 [ext_resource type="FontFile" uid="uid://8n4qf5wsfupm" path="res://fonts/69_Chubby Cheeks.ttf" id="1_37p78"]
 [ext_resource type="Texture2D" uid="uid://bipydydp5rhi3" path="res://shapes/68.svg" id="1_64ctp"]
@@ -7,6 +7,8 @@
 font = ExtResource("1_37p78")
 font_size = 48
 font_color = Color(0.882353, 0.741176, 0.415686, 1)
+
+[sub_resource type="Theme" id="Theme_64ctp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8sq4i"]
 font = ExtResource("1_37p78")
@@ -35,6 +37,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Panel" type="Panel" parent="."]
+visible = false
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -42,16 +45,20 @@ anchor_bottom = 1.0
 offset_top = -60.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = SubResource("Theme_64ctp")
 
-[node name="Score" type="Label" parent="Panel"]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -251.0
-grow_horizontal = 0
-grow_vertical = 2
+offset_top = -58.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 2
+
+[node name="Score" type="Label" parent="HBoxContainer"]
+layout_mode = 2
 text = "0001000"
 label_settings = SubResource("LabelSettings_8sq4i")
 horizontal_alignment = 2
