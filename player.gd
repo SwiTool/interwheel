@@ -23,13 +23,13 @@ var state
 var wa
 var inst
 
-func _update(delta):
+func _process(delta):
 	if state == STATES.GRAB:
 		var a = current_wheel.rotation - wa
 		position.x = current_wheel.position.x + cos(a)*current_wheel.ray;
 		position.y = current_wheel.position.y + sin(a)*current_wheel.ray;
 		rotation = a/0.0174
-		inst = min(inst + 0.1 * delta * 60, 1)
+		inst = min(inst + 0.1 * delta, 1)
 		
 		# var body = downcast(root).bl
 		# var pince = downcast(root).pince
@@ -57,7 +57,7 @@ func setState(new_state: STATES) -> void:
 				var ba = atan2(current_wheel.position.x - position.x, current_wheel.position.y - position.y) + PI
 				wa = wrapf(current_wheel.rotation - ba, -PI, PI)
 				$AnimationPlayer.play("Grabbing")
-				# inst = 0
+				inst = 0
 				# Cs.game.focus = {y:cw.y-Cs.VIEW_WHEEL}
 				# ox=x
 				# oy=y

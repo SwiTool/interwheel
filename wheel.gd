@@ -2,7 +2,7 @@ extends Area2D
 
 @export var possible_wheels: Array[CompressedTexture2D]
 @export var rotation_speed: float = PI
-var ray = 8
+var ray = 125
 
 func _ready() -> void:
 	if possible_wheels.size() > 0:
