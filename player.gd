@@ -28,7 +28,8 @@ func _process(delta):
 		var a = current_wheel.rotation - wa
 		position.x = current_wheel.position.x + cos(a)*current_wheel.ray;
 		position.y = current_wheel.position.y + sin(a)*current_wheel.ray;
-		rotation = a/0.0174
+		rotation = a
+		# rotation = a/0.0174
 		inst = min(inst + 0.1 * delta, 1)
 		
 		# var body = downcast(root).bl
@@ -57,6 +58,7 @@ func setState(new_state: STATES) -> void:
 				var ba = atan2(current_wheel.position.x - position.x, current_wheel.position.y - position.y) + PI
 				wa = wrapf(current_wheel.rotation - ba, -PI, PI)
 				$AnimationPlayer.play("Grabbing")
+				# $AnimationPlayer.play("default")
 				inst = 0
 				# Cs.game.focus = {y:cw.y-Cs.VIEW_WHEEL}
 				# ox=x

@@ -42,7 +42,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0997802, 0.200045, 0.250904),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-13, 0), Vector2(17.888, 0), Vector2(6.46033, 0), Vector2(10.46, 0)]
+"values": [Vector2(33, 0), Vector2(57.888, 0), Vector2(46.46, 0), Vector2(50.46, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -121,16 +121,19 @@ metadata/_edit_group_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_onrkg")
-animation = &"sticked"
+frame_progress = 0.688038
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(40, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_onrkg")
 
 [node name="FullBody" type="Sprite2D" parent="."]
+position = Vector2(40, 0)
 texture = ExtResource("3_sweqy")
 
 [node name="Body" type="Sprite2D" parent="."]
+position = Vector2(40, 0)
 texture = ExtResource("4_2hs0m")
 
 [node name="Eyes" type="Sprite2D" parent="."]
