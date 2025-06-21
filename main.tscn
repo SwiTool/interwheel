@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bs176q10nx0xh"]
+[gd_scene load_steps=4 format=3 uid="uid://bs176q10nx0xh"]
 
 [ext_resource type="Script" uid="uid://buudlk6uki4jc" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cwtdwnfixk5vk" path="res://player.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bk75x265ktjwr" path="res://hud.tscn" id="4_1bvp3"]
-[ext_resource type="Texture2D" uid="uid://deqqskabtb6qw" path="res://shapes/160.svg" id="4_lquwl"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_0xm2m")
@@ -17,7 +16,3 @@ position = Vector2(270, 705)
 
 [node name="Player" parent="." instance=ExtResource("3_h2yge")]
 position = Vector2(416, 490)
-
-[node name="160" type="Sprite2D" parent="."]
-position = Vector2(135, -68)
-texture = ExtResource("4_lquwl")

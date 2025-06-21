@@ -25,9 +25,6 @@ var state
 var wa
 var inst
 
-func _ready() -> void:
-	print("Is inside tree?", is_inside_tree())
-
 func _input(event):
 	print(event.as_text())
 
@@ -42,8 +39,6 @@ func _physics_process(delta):
 	position.y += vy * delta
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_accept"):
-		print("Pressed ui_accept")
 	if state == STATES.GRAB:
 		var a = current_wheel.rotation - wa
 		position.x = current_wheel.position.x + cos(a)*current_wheel.ray;
