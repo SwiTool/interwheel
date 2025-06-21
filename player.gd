@@ -15,15 +15,35 @@ const RAY = 8
 const WEIGHT = 0.5
 const JUMP = 12
 
-const JUMP_SIDE_ANGLE = 0.77
+const JUMP_SIDE_ANGLE = PI / 4
 
 var weight = 0
 var friction = 1
+var vx = 0
+var vy = 0
 var state
 var wa
 var inst
 
+func _ready() -> void:
+	print("Is inside tree?", is_inside_tree())
+
+func _input(event):
+	print(event.as_text())
+
+func _physics_process(delta):
+	if weight > 0:
+		vy += weight * delta
+	if (friction > 0):
+		var f = pow(friction, delta)
+		vx *= f
+		vy *= f
+	position.x += vx * delta
+	position.y += vy * delta
+
 func _process(delta):
+	if Input.is_action_just_pressed("ui_accept"):
+		print("Pressed ui_accept")
 	if state == STATES.GRAB:
 		var a = current_wheel.rotation - wa
 		position.x = current_wheel.position.x + cos(a)*current_wheel.ray;
@@ -35,7 +55,9 @@ func _process(delta):
 		# var body = downcast(root).bl
 		# var pince = downcast(root).pince
 		
-		# if(checkPress())jump(a);
+		if Input.is_action_pressed('jump'):
+			print("JUMP !") 
+			jump(a)
 		pass
 	elif state == STATES.FLY:
 		# Handle flying logic
@@ -76,3 +98,26 @@ func setState(new_state: STATES) -> void:
 			STATES.DEATH:
 				# Handle death state
 				pass
+
+func jump(a):
+	# Cs.game.stats.$jp++
+	# flRelease = false
+	# flMouseRelease = false
+	# var max = 4
+	# for( var i=0; i<max; i++ ){
+	# 	var dec = Math.random()*2-1
+	# 	var na = a + dec*0.8
+	# 	var sp = 8-Math.abs(dec)*6
+	# 	var c = i/max
+	# 	var p = newPart();
+	# 	p.vx = Math.cos(na)*sp
+	# 	p.vy = Math.sin(na)*sp
+	# 	p.setScale(50+c*100);
+	# 	p.timer = 10+Math.random()*30
+	# 	p.weight = 0.2+c*0.2
+	# }
+
+	vx = cos(a) * JUMP
+	vy = sin(a) * JUMP			
+	setState(STATES.FLY)
+	current_wheel = null;

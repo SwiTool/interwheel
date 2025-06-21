@@ -5,14 +5,14 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_64ctp"]
 font = ExtResource("1_37p78")
-font_size = 48
+font_size = 95
 font_color = Color(0.882353, 0.741176, 0.415686, 1)
 
 [sub_resource type="Theme" id="Theme_64ctp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8sq4i"]
 font = ExtResource("1_37p78")
-font_size = 60
+font_size = 95
 font_color = Color(1, 0.45098, 0.0745098, 1)
 outline_size = 2
 shadow_size = 0
@@ -24,13 +24,13 @@ position = Vector2(3.52, 4.10448)
 scale = Vector2(0.648, 0.589552)
 texture = ExtResource("1_64ctp")
 centered = false
-offset = Vector2(10, 10)
+offset = Vector2(50, 50)
 
 [node name="Depth" type="Label" parent="."]
-offset_left = 28.0
-offset_top = 26.0
-offset_right = 152.0
-offset_bottom = 74.0
+offset_left = 71.0
+offset_top = 67.0
+offset_right = 324.0
+offset_bottom = 160.0
 text = "210m"
 label_settings = SubResource("LabelSettings_64ctp")
 horizontal_alignment = 1

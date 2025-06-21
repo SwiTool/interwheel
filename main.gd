@@ -6,23 +6,29 @@ const SPACE = 40
 const WMAX = 50
 const DIF_RANDOMIZER = 0.1
 
-@export var wheel_dist_min = 60
-@export var wheel_dist_max = 120
+@export var wheel_dist_min = 300
+@export var wheel_dist_max = 600
 
 const wheel_scene = preload("res://wheel.tscn")
+const wall_scene = preload("res://wall.tscn")
 var current_target: Node2D
+var mcw
+var mch
 
 var score
 
 var wheels = []
 
 func _ready() -> void:
+	mcw = get_viewport().size.x
+	mch = get_viewport().size.y
 	score = 1000
+	initDecor()
 	initWheels()
 	current_target = $Player
-	$Camera2D.global_position.x = get_viewport().size.x / 2
+	$Camera2D.global_position.x = mcw / 2
 	$Player.position = $StartPoint.position
-	$Player.current_wheel = wheels[0]
+	$Player.current_wheel = wheels[2]
 	$Player.setState(2)
 
 func _process(delta):
@@ -31,27 +37,23 @@ func _process(delta):
 func initWheels() -> void:
 	wheels = [];
 
-	var mcw = get_viewport().size.x
-	var mch = get_viewport().size.y
-
 	var ow = wheel_scene.instantiate()
 	ow.ray = (mcw - 2 * (SIDE+SPACE))*0.25
 	ow.position.x = mcw * 0.5
 	ow.position.y = 0
-	ow.rotation_speed = PI/10
+	ow.speed = 0.05
 
 	add_child(ow)
 	wheels.push_back(ow)
 
 	for i: float in WMAX:
-		print("Creating wheel ", i, " of ", WMAX)
 		var c = clamp((i / WMAX) + randf_range(-1, 1) * DIF_RANDOMIZER, 0.0, 1.0)
 		var c2 = clamp((i / WMAX) + randf_range(-1, 1) * DIF_RANDOMIZER, 0.0, 1.0)
 		var c3 = clamp((i / WMAX) + randf_range(-1, 1) * DIF_RANDOMIZER, 0.0, 1.0)
 
 		var w = wheel_scene.instantiate()
 		w.ray = w.RAY_MIN + (1-c2)*(w.RAY_MAX - w.RAY_MIN) + randf_range(0, w.RAY_RANDOM)
-		w.rotation_speed = w.SPEED_MIN + c3*(w.SPEED_MAX-w.SPEED_MIN) + randf_range(0, w.SPEED_RANDOM)
+		w.speed = w.SPEED_MIN + c3*(w.SPEED_MAX-w.SPEED_MIN) + randf_range(0, w.SPEED_RANDOM)
 
 		var dist = wheel_dist_min + c * (wheel_dist_max - wheel_dist_min) + (ow.ray + w.ray)
 		var a = null
@@ -85,8 +87,8 @@ func initWheels() -> void:
 			for tr in 30:
 				flBreak = true
 
-				nw.ray = randf_range(nw.RAY_MIN + 10, nw.RAY_MAX - nw.RAY_MIN)
-				nw.rotation_speed = randf_range(nw.SPEED_MIN, nw.SPEED_MAX - nw.SPEED_MIN)
+				nw.ray = randf_range(nw.RAY_MIN + 50, nw.RAY_MAX - nw.RAY_MIN)
+				nw.speed = randf_range(nw.SPEED_MIN, nw.SPEED_MAX - nw.SPEED_MIN)
 				var m = SIDE + SPACE + nw.ray
 				nw.position.x = m + mcw - (2 * m)
 				var lst = [w,ow]
@@ -107,3 +109,51 @@ func initWheels() -> void:
 #     roof = ow.y - ow.ray
 #     eList.push({list:list,s:Cs.START_WHEEL_ID,e:Cs.START_WHEEL_ID-1})
 # }
+
+func initDecor():
+	var wall = wall_scene.instantiate()
+	var tex = wall.get_node("Sprite2D").texture
+	var size = tex.get_height()
+	var height = 2000
+	var xMax = mcw / size
+	var yMax = height / size
+
+	# 0x00436B70 # wall color
+	# for x in xMax:
+	#     for y in yMax:
+	#         var mc = gdm.attach("mcTile",10)
+	#         mc.gotoAndStop(string(n*10+Std.random(10)+1))
+	#         Cs.drawMcAt(bmp,mc,x*size,y*size)
+	#         mc.removeMovieClip();
+
+	# var by = 100
+	# while(by<2000){
+	#     if(Math.random()<0.2){
+	#         var link = "mcMotif"
+	#         var bx = Std.random(mcw)
+	#         if(Math.random()<0.2){
+	#             link = "mcFrise"
+	#             bx = mcw*0.5
+	#         }
+	#         var mc = gdm.attach(link,10)
+	#         by += mc._height*0.5
+	#         mc.gotoAndStop(string(Std.random(mc._totalframes)+1))
+	#         Cs.drawMcAt(bmp,mc,bx,by)
+	#         by += mc._height*0.5
+	#         mc.removeMovieClip();
+	#     }
+
+	#     by+= Std.random(100)
+
+	# }
+
+
+	for y in yMax:
+		for i in 2:
+			wall = wall_scene.instantiate()
+			wall.global_position.x = i * (mcw-SIDE)
+			wall.global_position.y = -y * size
+			add_child(wall)
+	# var skin = dm.empty(DP_BG)
+	# skin.attachBitmap(bmp,1)
+	# skin._y = -(n+1)*height

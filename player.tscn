@@ -1,10 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://cwtdwnfixk5vk"]
+[gd_scene load_steps=13 format=3 uid="uid://cwtdwnfixk5vk"]
 
 [ext_resource type="Texture2D" uid="uid://cg7ftsl3iwsee" path="res://shapes/166.svg" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://bcf1oc76f67mc" path="res://player.gd" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://05lh372jqgvc" path="res://shapes/175.svg" id="3_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://b8kq8crcx6jgc" path="res://shapes/127.svg" id="3_sweqy"]
-[ext_resource type="Texture2D" uid="uid://b3ebdjmy5ogfe" path="res://shapes/174.svg" id="4_2hs0m"]
+[ext_resource type="Texture2D" uid="uid://clw3gb6xgd81q" path="res://shapes/169.svg" id="4_1jxqw"]
 [ext_resource type="Texture2D" uid="uid://j0p5oeoatf34" path="res://shapes/176.svg" id="5_1jxqw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onrkg"]
+radius = 34.0
+height = 82.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_onrkg"]
 animations = [{
@@ -25,10 +30,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onrkg"]
-radius = 35.0
-height = 82.0
-
 [sub_resource type="Animation" id="Animation_dw050"]
 resource_name = "Grabbing"
 length = 0.5
@@ -42,31 +43,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0997802, 0.200045, 0.250904),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(33, 0), Vector2(57.888, 0), Vector2(46.46, 0), Vector2(50.46, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/path = NodePath("FullBody:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.0333333),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = false
-tracks/2/path = NodePath("Body:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.0333333),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
+"values": [Vector2(45, 0), Vector2(12, 0), Vector2(28, 0), Vector2(20, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_b26j0"]
@@ -86,59 +63,67 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("FullBody:visible")
+tracks/1/path = NodePath("Trail:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"update": 0,
+"values": [Vector2(1, 1)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Body:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+
+[sub_resource type="Animation" id="Animation_n7ghd"]
+resource_name = "Stretch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Trail:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.1, 1), Vector2(1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n7ghd"]
 _data = {
 &"Grabbing": SubResource("Animation_dw050"),
-&"RESET": SubResource("Animation_b26j0")
+&"RESET": SubResource("Animation_b26j0"),
+&"Stretch": SubResource("Animation_n7ghd")
 }
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_onrkg")
 metadata/_edit_group_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-sprite_frames = SubResource("SpriteFrames_onrkg")
-frame_progress = 0.688038
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(40, 0)
-rotation = 1.5708
+position = Vector2(29, 3)
 shape = SubResource("CapsuleShape2D_onrkg")
 
-[node name="FullBody" type="Sprite2D" parent="."]
-position = Vector2(40, 0)
-texture = ExtResource("3_sweqy")
+[node name="Trail" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(10, 38)
+rotation = 3.14159
+texture = ExtResource("4_1jxqw")
+centered = false
 
 [node name="Body" type="Sprite2D" parent="."]
-position = Vector2(40, 0)
-texture = ExtResource("4_2hs0m")
+position = Vector2(29, 3)
+texture = ExtResource("3_2hs0m")
 
 [node name="Eyes" type="Sprite2D" parent="."]
 position = Vector2(-13, 0)
 texture = ExtResource("5_1jxqw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(34, 2)
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_onrkg")
+frame_progress = 0.942047
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
