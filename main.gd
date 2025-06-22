@@ -20,16 +20,23 @@ var score
 var wheels = []
 
 func _ready() -> void:
+	$Player.connect("request_focus", Callable(self, "_on_request_focus"))
 	mcw = get_viewport().size.x
 	mch = get_viewport().size.y
 	score = 1000
 	initDecor()
 	initWheels()
-	current_target = $Player
+	for wheel in get_tree().get_nodes_in_group("wheels"):
+		wheel.connect("request_focus", Callable(self, "_on_request_focus"))
 	$Camera2D.global_position.x = mcw / 2
 	$Player.position = $StartPoint.position
-	$Player.current_wheel = wheels[2]
+	$Player.current_wheel = wheels[0]
 	$Player.setState(2)
+	current_target = $Player.current_wheel
+
+func _on_request_focus(target: Node2D) -> void:
+	if target != null:
+		current_target = target
 
 func _process(delta):
 	$Camera2D.position.y = current_target.global_position.y
@@ -42,6 +49,7 @@ func initWheels() -> void:
 	ow.position.x = mcw * 0.5
 	ow.position.y = 0
 	ow.speed = 0.05
+	ow.add_to_group("wheels")
 
 	add_child(ow)
 	wheels.push_back(ow)
@@ -52,6 +60,7 @@ func initWheels() -> void:
 		var c3 = clamp((i / WMAX) + randf_range(-1, 1) * DIF_RANDOMIZER, 0.0, 1.0)
 
 		var w = wheel_scene.instantiate()
+		w.add_to_group("wheels")
 		w.ray = w.RAY_MIN + (1-c2)*(w.RAY_MAX - w.RAY_MIN) + randf_range(0, w.RAY_RANDOM)
 		w.speed = w.SPEED_MIN + c3*(w.SPEED_MAX-w.SPEED_MIN) + randf_range(0, w.SPEED_RANDOM)
 
@@ -82,6 +91,7 @@ func initWheels() -> void:
 		# // INTER WHEEL
 		if randf() > c:
 			var nw = wheel_scene.instantiate()
+			nw.add_to_group("wheels")
 			nw.position.y = (w.position.y + ow.position.y) * 0.5
 
 			for tr in 30:

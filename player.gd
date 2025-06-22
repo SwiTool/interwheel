@@ -1,32 +1,29 @@
 extends CharacterBody2D
 
+signal request_focus(target)
+
 enum STATES {
-	WALL_SLIDE,
+	GROUNDED,
 	FLY,
 	GRAB,
-	WATER,
+	WALL_SLIDE,
 	DEATH,
 }
 
-@export var current_wheel: Node2D
-
 const GROUND_SPEED = 15
 const RAY = 8
-const WEIGHT = 0.5
-const JUMP = 12
-
+const WEIGHT = 100
+const JUMP = 300
 const JUMP_SIDE_ANGLE = PI / 4
 
-var weight = 0
-var friction = 1
+var current_wheel: Node2D
+var weight := 0.0
+var friction := 1.0
 var vx = 0
 var vy = 0
 var state
 var wa
 var inst
-
-func _input(event):
-	print(event.as_text())
 
 func _physics_process(delta):
 	if weight > 0:
@@ -41,58 +38,84 @@ func _physics_process(delta):
 func _process(delta):
 	if state == STATES.GRAB:
 		var a = current_wheel.rotation - wa
-		position.x = current_wheel.position.x + cos(a)*current_wheel.ray;
-		position.y = current_wheel.position.y + sin(a)*current_wheel.ray;
+		position.x = current_wheel.position.x + cos(a) * current_wheel.ray;
+		position.y = current_wheel.position.y + sin(a) * current_wheel.ray;
 		rotation = a
-		# rotation = a/0.0174
 		inst = min(inst + 0.1 * delta, 1)
 		
 		# var body = downcast(root).bl
 		# var pince = downcast(root).pince
 		
 		if Input.is_action_pressed('jump'):
-			print("JUMP !") 
 			jump(a)
 		pass
 	elif state == STATES.FLY:
 		# Handle flying logic
+		var a = atan2(vy,vx)
+		# check side
+		if position.x < 50 || position.x > get_viewport().size.x - 50:
+			position.x = clamp(position.x, 50, get_viewport().size.x - 50)
+			setState(STATES.WALL_SLIDE)
+		pass
+	elif state == STATES.GROUNDED:
+		# Handle wall sliding logic
+		var m = 50+RAY
+		if position.x < 50 || get_viewport().size.x - 50:
+			position.x = clamp(position.x, 50, get_viewport().size.x - 50)
+			vx = -vx
+		if Input.is_action_pressed('jump'):
+			jump(-PI / 2)
 		pass
 	elif state == STATES.WALL_SLIDE:
-		# Handle wall sliding logic
-		pass
-	elif state == STATES.WATER:
-		# Handle water logic
+		# Handle wall slide logic
+		vy += 0.6 * delta;
+		vy *= pow(0.92, delta)
+		if Input.is_action_pressed('jump'):
+			var sens = 1 if (position.x < get_viewport().size.x / 2) else -1
+			jump(-PI / 2 + JUMP_SIDE_ANGLE * sens)
 		pass
 	elif state == STATES.DEATH:
 		# Handle death logic
 		pass
 
 func setState(new_state: STATES) -> void:
-	if state != new_state:
-		state = new_state
-		match state:
-			STATES.GRAB:
-				var ba = atan2(current_wheel.position.x - position.x, current_wheel.position.y - position.y) + PI
-				wa = wrapf(current_wheel.rotation - ba, -PI, PI)
-				$AnimationPlayer.play("Grabbing")
-				# $AnimationPlayer.play("default")
-				inst = 0
-				# Cs.game.focus = {y:cw.y-Cs.VIEW_WHEEL}
-				# ox=x
-				# oy=y
-				pass
-			STATES.FLY:
-				# Transition to flying
-				pass
-			STATES.WALL_SLIDE:
-				# Transition to wall sliding
-				pass
-			STATES.WATER:
-				# Transition to water state
-				pass
-			STATES.DEATH:
-				# Handle death state
-				pass
+	match state:
+		STATES.FLY:
+			weight = 0
+			friction = 1
+			vx = 0
+			vy = 0
+		STATES.GRAB:
+			rotation = 0
+	state = new_state
+	match state:
+		STATES.GROUNDED:
+			# Transition to grounded
+			vx = GROUND_SPEED
+			pass
+		STATES.GRAB:
+			var ba = atan2(current_wheel.position.x - position.x, current_wheel.position.y - position.y) + PI
+			wa = wrapf(current_wheel.rotation - ba, -PI, PI)
+			$AnimationPlayer.play("Grabbing")
+			# $AnimationPlayer.play("default")
+			inst = 0
+			# Cs.game.focus = {y:cw.y-Cs.VIEW_WHEEL}
+			# ox=x
+			# oy=y
+			pass
+		STATES.FLY:
+			# Transition to flying
+			weight = WEIGHT
+			friction = 0.98
+			pass
+		STATES.WALL_SLIDE:
+			# Transition to water state
+			pass
+		STATES.DEATH:
+			# Handle death state
+			pass
+	if state != STATES.GRAB:
+		emit_signal("request_focus", self)
 
 func jump(a):
 	# Cs.game.stats.$jp++

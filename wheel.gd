@@ -1,5 +1,7 @@
 extends Area2D
 
+signal request_focus(target)
+
 const RAY_MIN = 40
 const RAY_MAX  = 160
 const RAY_RANDOM = 50
@@ -33,3 +35,11 @@ func _physics_process(delta):
 	rotation = rad_to_deg(angle)
 	#move_and_slide()
 	pass
+
+
+func _on_body_entered(body: Node2D) -> void:
+	print(body.name)
+	if body.name == "Player" && body.state == body.STATES.FLY:
+		emit_signal("request_focus", self)
+		body.current_wheel = self
+		body.setState(body.STATES.GRAB)
