@@ -29,7 +29,6 @@ func _ready() -> void:
 	for wheel in get_tree().get_nodes_in_group("wheels"):
 		wheel.connect("request_focus", Callable(self, "_on_request_focus"))
 	$Camera2D.global_position.x = mcw / 2
-	$Player.position = $StartPoint.position
 	$Player.current_wheel = wheels[0]
 	$Player.setState(2)
 	current_target = $Player.current_wheel
@@ -47,8 +46,8 @@ func initWheels() -> void:
 	var ow = wheel_scene.instantiate()
 	ow.ray = (mcw - 2 * (SIDE+SPACE))*0.25
 	ow.position.x = mcw * 0.5
-	ow.position.y = 0
-	ow.speed = 0.05
+	ow.position.y = -500
+	ow.speed = 1
 	ow.add_to_group("wheels")
 
 	add_child(ow)
@@ -124,7 +123,7 @@ func initDecor():
 	var wall = wall_scene.instantiate()
 	var tex = wall.get_node("Sprite2D").texture
 	var size = tex.get_height()
-	var height = 2000
+	var height = 20000
 	var xMax = mcw / size
 	var yMax = height / size
 

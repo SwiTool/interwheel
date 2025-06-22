@@ -10,19 +10,19 @@ enum STATES {
 	DEATH,
 }
 
-const GROUND_SPEED = 15
+const GROUND_SPEED = 150
 const RAY = 8
-const WEIGHT = 100
-const JUMP = 300
+const WEIGHT = 1000
+const JUMP = 600
 const JUMP_SIDE_ANGLE = PI / 4
 
 var current_wheel: Node2D
 var weight := 0.0
 var friction := 1.0
-var vx = 0
-var vy = 0
+var vx := 0.0
+var vy := 0.0
 var state
-var wa
+var wa := 0.0
 var inst
 
 func _physics_process(delta):
@@ -32,12 +32,12 @@ func _physics_process(delta):
 		var f = pow(friction, delta)
 		vx *= f
 		vy *= f
-	position.x += vx * delta
-	position.y += vy * delta
+	position.x += vx * delta * 2
+	position.y += vy * delta * 2
 
 func _process(delta):
 	if state == STATES.GRAB:
-		var a = current_wheel.rotation - wa
+		var a = (current_wheel.rotation - wa) + PI / 2
 		position.x = current_wheel.position.x + cos(a) * current_wheel.ray;
 		position.y = current_wheel.position.y + sin(a) * current_wheel.ray;
 		rotation = a
@@ -46,31 +46,23 @@ func _process(delta):
 		# var body = downcast(root).bl
 		# var pince = downcast(root).pince
 		
-		if Input.is_action_pressed('jump'):
+		if Input.is_action_just_pressed('jump'):
 			jump(a)
 		pass
 	elif state == STATES.FLY:
 		# Handle flying logic
-		var a = atan2(vy,vx)
-		# check side
-		if position.x < 50 || position.x > get_viewport().size.x - 50:
-			position.x = clamp(position.x, 50, get_viewport().size.x - 50)
-			setState(STATES.WALL_SLIDE)
+		# Nothing to do here for now
 		pass
 	elif state == STATES.GROUNDED:
 		# Handle wall sliding logic
-		var m = 50+RAY
-		if position.x < 50 || get_viewport().size.x - 50:
-			position.x = clamp(position.x, 50, get_viewport().size.x - 50)
-			vx = -vx
-		if Input.is_action_pressed('jump'):
+		if Input.is_action_just_pressed('jump'):
 			jump(-PI / 2)
 		pass
 	elif state == STATES.WALL_SLIDE:
 		# Handle wall slide logic
-		vy += 0.6 * delta;
+		vy += 120 * delta;
 		vy *= pow(0.92, delta)
-		if Input.is_action_pressed('jump'):
+		if Input.is_action_just_pressed('jump'):
 			var sens = 1 if (position.x < get_viewport().size.x / 2) else -1
 			jump(-PI / 2 + JUMP_SIDE_ANGLE * sens)
 		pass
@@ -92,10 +84,12 @@ func setState(new_state: STATES) -> void:
 		STATES.GROUNDED:
 			# Transition to grounded
 			vx = GROUND_SPEED
+			vy = 0
+			weight = 0
 			pass
 		STATES.GRAB:
 			var ba = atan2(current_wheel.position.x - position.x, current_wheel.position.y - position.y) + PI
-			wa = wrapf(current_wheel.rotation - ba, -PI, PI)
+			wa = wrapf(current_wheel.rotation + ba, 0, TAU)
 			$AnimationPlayer.play("Grabbing")
 			# $AnimationPlayer.play("default")
 			inst = 0
@@ -139,3 +133,13 @@ func jump(a):
 	vy = sin(a) * JUMP			
 	setState(STATES.FLY)
 	current_wheel = null;
+
+func on_wall_touched() -> void:
+	if state == STATES.FLY:
+		setState(STATES.WALL_SLIDE)
+	elif state == STATES.GROUNDED:
+		vx = -vx
+
+func on_ground_touched() -> void:
+	if state == STATES.FLY || state == STATES.WALL_SLIDE:
+		setState(STATES.GROUNDED)
