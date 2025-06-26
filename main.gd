@@ -152,6 +152,9 @@ func initDecor():
 
 	# }
 
+	for y in 100:
+		for x in 7:
+			$BgTiles.set_cell(Vector2i(x, -y), 0, Vector2i(randi() % 4, randi() % 3))
 
 	for y in abs(yMax):
 		for i in 2:
