@@ -6,8 +6,8 @@ const RAY_MIN = 40
 const RAY_MAX  = 160
 const RAY_RANDOM = 50
 
-const SPEED_MIN = 1
-const SPEED_MAX = 5
+const SPEED_MIN = 2
+const SPEED_MAX = 10
 const SPEED_RANDOM = 0.025
 
 

@@ -10,10 +10,10 @@ enum STATES {
 	DEATH,
 }
 
-const GROUND_SPEED = 150
+const GROUND_SPEED = 250
 const RAY = 8
-const WEIGHT = 1000
-const JUMP = 600
+const WEIGHT = 1200
+const JUMP = 800
 const JUMP_SIDE_ANGLE = PI / 4
 
 var current_wheel: Node2D
@@ -34,6 +34,12 @@ func _physics_process(delta):
 		vy *= f
 	position.x += vx * delta * 2
 	position.y += vy * delta * 2
+	if position.y > 0:
+		position.y = 0
+	if position.x < 0:
+		position.x = 0
+	if position.x > get_viewport().size.x:
+		position.x = get_viewport().size.x
 
 func _process(delta):
 	if state == STATES.GRAB:
@@ -60,7 +66,7 @@ func _process(delta):
 		pass
 	elif state == STATES.WALL_SLIDE:
 		# Handle wall slide logic
-		vy += 120 * delta;
+		vy += 160 * delta;
 		vy *= pow(0.92, delta)
 		if Input.is_action_just_pressed('jump'):
 			var sens = 1 if (position.x < get_viewport().size.x / 2) else -1
@@ -83,7 +89,7 @@ func setState(new_state: STATES) -> void:
 	match state:
 		STATES.GROUNDED:
 			# Transition to grounded
-			vx = GROUND_SPEED
+			vx = GROUND_SPEED if position.x < get_viewport().size.x / 2 else -GROUND_SPEED
 			vy = 0
 			weight = 0
 			pass

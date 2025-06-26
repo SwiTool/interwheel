@@ -11,7 +11,6 @@ const DIF_RANDOMIZER = 0.1
 
 const wheel_scene = preload("res://wheel.tscn")
 const wall_scene = preload("res://wall.tscn")
-var current_target: Node2D
 var mcw
 var mch
 
@@ -24,25 +23,22 @@ func _ready() -> void:
 	mcw = get_viewport().size.x
 	mch = get_viewport().size.y
 	score = 1000
-	initDecor()
 	initWheels()
+	initDecor()
 	for wheel in get_tree().get_nodes_in_group("wheels"):
 		wheel.connect("request_focus", Callable(self, "_on_request_focus"))
-	$Camera2D.global_position.x = mcw / 2
 	$Player.current_wheel = wheels[0]
 	$Player.setState(2)
-	current_target = $Player.current_wheel
+	$Camera2D.current_target = $Player.current_wheel
 
 func _on_request_focus(target: Node2D) -> void:
 	if target != null:
-		current_target = target
+		$Camera2D.current_target = target
 
-func _process(delta):
-	$Camera2D.position.y = current_target.global_position.y
+# func _process(delta):
+
 
 func initWheels() -> void:
-	wheels = [];
-
 	var ow = wheel_scene.instantiate()
 	ow.ray = (mcw - 2 * (SIDE+SPACE))*0.25
 	ow.position.x = mcw * 0.5
@@ -123,7 +119,7 @@ func initDecor():
 	var wall = wall_scene.instantiate()
 	var tex = wall.get_node("Sprite2D").texture
 	var size = tex.get_height()
-	var height = 20000
+	var height = wheels[-1].position.y
 	var xMax = mcw / size
 	var yMax = height / size
 
@@ -157,12 +153,12 @@ func initDecor():
 	# }
 
 
-	for y in yMax:
+	for y in abs(yMax):
 		for i in 2:
 			wall = wall_scene.instantiate()
 			wall.global_position.x = i * (mcw-SIDE)
 			wall.global_position.y = -y * size
-			add_child(wall)
+			$Walls.add_child(wall)
 	# var skin = dm.empty(DP_BG)
 	# skin.attachBitmap(bmp,1)
 	# skin._y = -(n+1)*height
