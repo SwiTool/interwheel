@@ -15,6 +15,7 @@ const RAY = 8
 const WEIGHT = 1200
 const JUMP = 800
 const JUMP_SIDE_ANGLE = PI / 4
+const WALL_SIZE = 40
 
 var current_wheel: Node2D
 var weight := 0.0
@@ -57,12 +58,23 @@ func _process(delta):
 		pass
 	elif state == STATES.FLY:
 		# Handle flying logic
-		# Nothing to do here for now
+		if position.x < WALL_SIZE:
+			position.x = WALL_SIZE
+			setState(STATES.WALL_SLIDE)
+		if position.x > get_viewport().size.x - 2 * WALL_SIZE:
+			position.x = get_viewport().size.x - 2 * WALL_SIZE
+			setState(STATES.WALL_SLIDE)
 		pass
 	elif state == STATES.GROUNDED:
 		# Handle wall sliding logic
 		if Input.is_action_just_pressed('jump'):
 			jump(-PI / 2)
+		if position.x < WALL_SIZE:
+			position.x = WALL_SIZE
+			vx = -vx
+		if position.x > get_viewport().size.x - 2 * WALL_SIZE:
+			position.x = get_viewport().size.x - 2 * WALL_SIZE
+			vx = -vx
 		pass
 	elif state == STATES.WALL_SLIDE:
 		# Handle wall slide logic
@@ -119,8 +131,6 @@ func setState(new_state: STATES) -> void:
 
 func jump(a):
 	# Cs.game.stats.$jp++
-	# flRelease = false
-	# flMouseRelease = false
 	# var max = 4
 	# for( var i=0; i<max; i++ ){
 	# 	var dec = Math.random()*2-1
@@ -140,11 +150,11 @@ func jump(a):
 	setState(STATES.FLY)
 	current_wheel = null;
 
-func on_wall_touched() -> void:
-	if state == STATES.FLY:
-		setState(STATES.WALL_SLIDE)
-	elif state == STATES.GROUNDED:
-		vx = -vx
+#func on_wall_touched() -> void:
+#	if state == STATES.FLY:
+#		setState(STATES.WALL_SLIDE)
+#	elif state == STATES.GROUNDED:
+#		vx = -vx
 
 func on_ground_touched() -> void:
 	if state == STATES.FLY || state == STATES.WALL_SLIDE:

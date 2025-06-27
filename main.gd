@@ -35,8 +35,8 @@ func _on_request_focus(target: Node2D) -> void:
 	if target != null:
 		$Camera2D.current_target = target
 
-# func _process(delta):
-
+func _process(delta):
+	$HUD.set_depth(abs(int($Player.position.y * 0.2)))
 
 func initWheels() -> void:
 	var ow = wheel_scene.instantiate()
@@ -152,16 +152,16 @@ func initDecor():
 
 	# }
 
-	for y in 100:
-		for x in 7:
-			$BgTiles.set_cell(Vector2i(x, -y), 0, Vector2i(randi() % 4, randi() % 3))
+	#for y in 100:
+	#	for x in 7:
+	#		$BgTiles.set_cell(Vector2i(x, -y), 0, Vector2i(randi() % 4, randi() % 3))
 
-	for y in abs(yMax):
-		for i in 2:
-			wall = wall_scene.instantiate()
-			wall.global_position.x = i * (mcw-SIDE)
-			wall.global_position.y = -y * size
-			$Walls.add_child(wall)
+	#for y in abs(yMax):
+	#	for i in 2:
+	#		wall = wall_scene.instantiate()
+	#		wall.global_position.x = i+1 * (mcw-SIDE)
+	#		wall.global_position.y = -y * size
+	#		$Walls.add_child(wall)
 	# var skin = dm.empty(DP_BG)
 	# skin.attachBitmap(bmp,1)
 	# skin._y = -(n+1)*height
