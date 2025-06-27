@@ -11,7 +11,7 @@ enum STATES {
 }
 
 const GROUND_SPEED = 250
-const RAY = 8
+const RAY = 40
 const WEIGHT = 1200
 const JUMP = 800
 const JUMP_SIDE_ANGLE = PI / 4

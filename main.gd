@@ -1,12 +1,12 @@
 extends Node
 
-const SIDE = 50
+const SIDE = 60
 const SPACE = 40
 
 const WMAX = 50
 const DIF_RANDOMIZER = 0.1
 
-@export var wheel_dist_min = 300
+@export var wheel_dist_min = 400
 @export var wheel_dist_max = 600
 
 const wheel_scene = preload("res://wheel.tscn")
@@ -42,7 +42,7 @@ func initWheels() -> void:
 	var ow = wheel_scene.instantiate()
 	ow.ray = (mcw - 2 * (SIDE+SPACE))*0.25
 	ow.position.x = mcw * 0.5
-	ow.position.y = -500
+	ow.position.y = -680
 	ow.speed = 1
 	ow.add_to_group("wheels")
 
