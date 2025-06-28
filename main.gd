@@ -14,15 +14,12 @@ const wall_scene = preload("res://wall.tscn")
 var mcw
 var mch
 
-var score
-
 var wheels = []
 
 func _ready() -> void:
 	$Player.connect("request_focus", Callable(self, "_on_request_focus"))
 	mcw = get_viewport().size.x
 	mch = get_viewport().size.y
-	score = 1000
 	initWheels()
 	initDecor()
 	for wheel in get_tree().get_nodes_in_group("wheels"):
@@ -78,9 +75,8 @@ func initWheels() -> void:
 				break;
 
 		# //w.addMine();
-		# while(randf()+0.4<c){
-		#     w.addMine();
-		# }
+		while randf() + 0.4 < c:
+			w.addMine();
 
 
 		# // INTER WHEEL

@@ -13,6 +13,8 @@ radius = 253.0
 script = ExtResource("1_e0ure")
 possible_wheels = Array[CompressedTexture2D]([ExtResource("2_gwn81"), ExtResource("3_3mgug"), ExtResource("4_fqxq6"), ExtResource("5_w0tbm")])
 
+[node name="MinesList" type="Node2D" parent="."]
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_gwn81")
 

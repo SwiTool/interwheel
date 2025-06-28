@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://coiek5rhydn50"]
+
+[ext_resource type="Script" uid="uid://dkoal78rno60s" path="res://mine.gd" id="1_i6hay"]
+[ext_resource type="Texture2D" uid="uid://butptdb6mfggd" path="res://shapes/98.svg" id="1_iuis7"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i6hay"]
+radius = 33.0
+height = 92.0
+
+[node name="Mine" type="Area2D"]
+script = ExtResource("1_i6hay")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(27, 0)
+texture = ExtResource("1_iuis7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(27, 0)
+shape = SubResource("CapsuleShape2D_i6hay")
+debug_color = Color(4.33177e-07, 0.650624, 0.0798674, 0.42)
