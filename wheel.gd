@@ -17,23 +17,28 @@ const MINE_SPACE = 36
 
 
 @export var possible_wheels: Array[CompressedTexture2D]
+var texture
 var angle := 0.0
 var speed := 0.0
 var ray
 
 func _ready() -> void:
 	if possible_wheels.size() > 0:
-		$Sprite2D.texture = possible_wheels[randi() % possible_wheels.size()]
+		texture = possible_wheels[randi() % possible_wheels.size()]
 	else:
 		push_error("No wheels available to set texture.")
-	scale.x = ray * 2.0 / $Sprite2D.texture.get_width()
-	scale.y = ray * 2.0 / $Sprite2D.texture.get_height()
+	# scale.x = ray * 2.0 / $Sprite2D.texture.get_width()
+	# scale.y = ray * 2.0 / $Sprite2D.texture.get_height()
 	if randi() % 2 == 0:
 		speed *= -1.0
+	$CollisionShape2D.shape = CircleShape2D.new()
+	$CollisionShape2D.shape.radius = ray
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
+	var zoom = get_viewport_transform().get_scale().x
+	var radius_units = ray / zoom
+	$CollisionShape2D.shape.radius = radius_units
 	pass
-
 
 func _physics_process(delta):
 	angle += speed * delta
@@ -71,8 +76,8 @@ func addMine():
 	# instanciate new mine
 	var nm = mine_scene.instantiate()
 	nm.angle = mineAngle
-	nm.position.x = cos(mineAngle) * $Sprite2D.texture.get_width() / 2
-	nm.position.y = sin(mineAngle) * $Sprite2D.texture.get_height() / 2
+	nm.position.x = cos(mineAngle) * ray
+	nm.position.y = sin(mineAngle) * ray
 	nm.rotation = mineAngle
 	nm.add_to_group("mines")
 	$MinesList.add_child(nm)

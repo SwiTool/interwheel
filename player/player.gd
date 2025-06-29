@@ -58,8 +58,8 @@ func _process(delta):
 		pass
 	elif state == STATES.FLY:
 		# Handle flying logic
-		# if Input.is_action_pressed('jump'):
-		# 	vy = -750
+		if Input.is_action_just_pressed('jump'):
+			vy = -750
 			# vx = 0
 		if position.x < WALL_SIZE:
 			position.x = WALL_SIZE
@@ -70,7 +70,7 @@ func _process(delta):
 		var speed = Vector2(vx, vy).length()
 		# print("Speed: ", speed)
 		rotation = atan2(vy, vx)
-		$AnimationPlayer.play('Stretch')
+		$AnimationPlayer.play('Flying')
 		$AnimationPlayer.seek(clamp(speed / 1000, 0.0, 1.0))
 		pass
 	elif state == STATES.GROUNDED:
@@ -114,8 +114,8 @@ func setState(new_state: STATES) -> void:
 			vx = GROUND_SPEED if position.x < get_viewport().size.x / 2 else -GROUND_SPEED
 			vy = 0
 			weight = 0
-			$AnimationPlayer.play("Grabbing")
-			rotation = PI / 2
+			$AnimationPlayer.play("Grounded")
+			rotation = -PI / 2
 			pass
 		STATES.GRAB:
 			var ba = atan2(current_wheel.position.x - position.x, current_wheel.position.y - position.y) + PI
@@ -135,9 +135,14 @@ func setState(new_state: STATES) -> void:
 		STATES.WALL_SLIDE:
 			# Transition to water state
 			rotation = -PI / 2
+			$AnimationPlayer.play('Falling')
 			pass
 		STATES.DEATH:
 			# Handle death state
+			$AnimationPlayer.play('Death')
+			vx = 0
+			vy = 0
+			weight = 0
 			pass
 	if state != STATES.GRAB:
 		emit_signal("request_focus", self)
