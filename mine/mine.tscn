@@ -1,0 +1,93 @@
+[gd_scene load_steps=18 format=3 uid="uid://coiek5rhydn50"]
+
+[ext_resource type="Script" uid="uid://dkoal78rno60s" path="res://mine/mine.gd" id="1_i6hay"]
+[ext_resource type="Texture2D" uid="uid://butptdb6mfggd" path="res://mine/mine.svg" id="1_iuis7"]
+[ext_resource type="Texture2D" uid="uid://coo7v2kpl847g" path="res://mine/explosion/75.svg" id="3_m332v"]
+[ext_resource type="Texture2D" uid="uid://c50cnttu4bc2u" path="res://mine/explosion/76.svg" id="4_crsn7"]
+[ext_resource type="Texture2D" uid="uid://c8n0a0g2ldnyi" path="res://mine/explosion/77.svg" id="5_3rpxq"]
+[ext_resource type="Texture2D" uid="uid://dw5werf10cqua" path="res://mine/explosion/78.svg" id="6_sd5mr"]
+[ext_resource type="Texture2D" uid="uid://ddumvhjv6joog" path="res://mine/explosion/79.svg" id="7_k2ghu"]
+[ext_resource type="Texture2D" uid="uid://burgy1pqbcnyc" path="res://mine/explosion/80.svg" id="8_hhug7"]
+[ext_resource type="Texture2D" uid="uid://bfm1uuvqhck5" path="res://mine/explosion/81.svg" id="9_5dn0k"]
+[ext_resource type="Texture2D" uid="uid://dkdbv8bdht1pq" path="res://mine/explosion/82.svg" id="10_kpqdg"]
+[ext_resource type="Texture2D" uid="uid://bqcj6y25woeym" path="res://mine/explosion/83.svg" id="11_xqmkk"]
+[ext_resource type="Texture2D" uid="uid://ssw34xrr1t6r" path="res://mine/explosion/84.svg" id="12_1g583"]
+[ext_resource type="Texture2D" uid="uid://bw432a0up61oi" path="res://mine/explosion/85.svg" id="13_ig6ih"]
+[ext_resource type="Texture2D" uid="uid://bilkidmbmvxix" path="res://mine/explosion/86.svg" id="14_so3c7"]
+[ext_resource type="Texture2D" uid="uid://fbxrtp2a03fx" path="res://mine/explosion/87.svg" id="15_ogph7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i6hay"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_iuis7")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_m332v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_crsn7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_3rpxq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_sd5mr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_k2ghu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_hhug7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_5dn0k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_kpqdg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_xqmkk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_1g583")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_ig6ih")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_so3c7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ogph7")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"explosion",
+"speed": 25.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i6hay"]
+radius = 33.0
+height = 92.0
+
+[node name="Mine" type="Area2D"]
+script = ExtResource("1_i6hay")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, 0)
+sprite_frames = SubResource("SpriteFrames_i6hay")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 0)
+shape = SubResource("CapsuleShape2D_i6hay")
+debug_color = Color(4.33177e-07, 0.650624, 0.0798674, 0.42)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cwtdwnfixk5vk" path="res://player/player.tscn" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://do1m1xdj1ppot" path="res://camera.gd" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://bk75x265ktjwr" path="res://hud.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://coiek5rhydn50" path="res://mine.tscn" id="4_5vw27"]
+[ext_resource type="PackedScene" uid="uid://coiek5rhydn50" path="res://mine/mine.tscn" id="4_5vw27"]
 [ext_resource type="Texture2D" uid="uid://dj378aiuon4vi" path="res://atlas_bg.png" id="6_7mycd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_272bh"]

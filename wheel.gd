@@ -2,7 +2,7 @@ extends Area2D
 
 signal request_focus(target)
 
-const mine_scene = preload("res://mine.tscn")
+const mine_scene = preload("res://mine/mine.tscn")
 
 const RAY_MIN = 40
 const RAY_MAX  = 160

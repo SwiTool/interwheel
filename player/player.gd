@@ -149,6 +149,7 @@ func setState(new_state: STATES) -> void:
 			vx = 0
 			vy = 0
 			weight = 0
+			get_parent().end_game()
 			pass
 	if state != STATES.GRAB:
 		emit_signal("request_focus", self)

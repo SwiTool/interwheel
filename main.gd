@@ -13,10 +13,12 @@ const wheel_scene = preload("res://wheel.tscn")
 const wall_scene = preload("res://wall.tscn")
 var mcw
 var mch
+var is_end = true
 
 var wheels = []
 
 func _ready() -> void:
+	Engine.time_scale = 1.0
 	$Player.connect("request_focus", Callable(self, "_on_request_focus"))
 	mcw = get_viewport().size.x
 	mch = get_viewport().size.y
@@ -34,6 +36,17 @@ func _on_request_focus(target: Node2D) -> void:
 
 func _process(delta):
 	$HUD.set_depth(abs(int($Player.position.y / 20)))
+
+func end_game():
+	var timer := 0.0
+	var start_scale := Engine.time_scale
+
+	while timer < 1.0:
+		var t := timer / 1.0
+		Engine.time_scale = lerp(start_scale, 0.0, t)
+		await get_tree().process_frame
+		timer += get_process_delta_time()
+	Engine.time_scale = 0.0
 
 func initWheels() -> void:
 	var ow = wheel_scene.instantiate()
@@ -112,20 +125,15 @@ func initWheels() -> void:
 # }
 
 func initDecor():
-	var wall = wall_scene.instantiate()
-	var tex = wall.get_node("Sprite2D").texture
-	var size = tex.get_height()
-	var height = wheels[-1].position.y
-	var xMax = mcw / size
-	var yMax = height / size
+	pass
+	# var wall = wall_scene.instantiate()
+	# var tex = wall.get_node("Sprite2D").texture
+	# var size = tex.get_height()
+	# var height = wheels[-1].position.y
+	# var xMax = mcw / size
+	# var yMax = height / size
 
 	# 0x00436B70 # wall color
-	# for x in xMax:
-	#     for y in yMax:
-	#         var mc = gdm.attach("mcTile",10)
-	#         mc.gotoAndStop(string(n*10+Std.random(10)+1))
-	#         Cs.drawMcAt(bmp,mc,x*size,y*size)
-	#         mc.removeMovieClip();
 
 	# var by = 100
 	# while(by<2000){
@@ -143,21 +151,9 @@ func initDecor():
 	#         by += mc._height*0.5
 	#         mc.removeMovieClip();
 	#     }
-
 	#     by+= Std.random(100)
-
 	# }
 
-	#for y in 100:
-	#	for x in 7:
-	#		$BgTiles.set_cell(Vector2i(x, -y), 0, Vector2i(randi() % 4, randi() % 3))
-
-	#for y in abs(yMax):
-	#	for i in 2:
-	#		wall = wall_scene.instantiate()
-	#		wall.global_position.x = i+1 * (mcw-SIDE)
-	#		wall.global_position.y = -y * size
-	#		$Walls.add_child(wall)
 	# var skin = dm.empty(DP_BG)
 	# skin.attachBitmap(bmp,1)
 	# skin._y = -(n+1)*height
