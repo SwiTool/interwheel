@@ -33,7 +33,7 @@ func _on_request_focus(target: Node2D) -> void:
 		$Camera2D.current_target = target
 
 func _process(delta):
-	$HUD.set_depth(abs(int($Player.position.y * 0.2)))
+	$HUD.set_depth(abs(int($Player.position.y / 20)))
 
 func initWheels() -> void:
 	var ow = wheel_scene.instantiate()

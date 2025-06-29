@@ -25,8 +25,11 @@ var vy := 0.0
 var state
 var wa := 0.0
 var inst
+var is_dead := false
 
 func _physics_process(delta):
+	if is_dead:
+		return
 	if weight > 0:
 		vy += weight * delta
 	if (friction > 0):
@@ -138,8 +141,11 @@ func setState(new_state: STATES) -> void:
 			$AnimationPlayer.play('Falling')
 			pass
 		STATES.DEATH:
+			if is_dead:
+				return
 			# Handle death state
 			$AnimationPlayer.play('Death')
+			is_dead = true
 			vx = 0
 			vy = 0
 			weight = 0

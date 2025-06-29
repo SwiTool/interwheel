@@ -11,11 +11,11 @@
 script = ExtResource("1_e0ure")
 possible_wheels = Array[CompressedTexture2D]([ExtResource("2_gwn81"), ExtResource("3_3mgug"), ExtResource("4_fqxq6"), ExtResource("5_w0tbm")])
 
-[node name="WheelDrawer" type="Node2D" parent="."]
-script = ExtResource("6_fqxq6")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="MinesList" type="Node2D" parent="."]
+
+[node name="WheelDrawer" type="Node2D" parent="."]
+script = ExtResource("6_fqxq6")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
