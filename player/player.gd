@@ -24,7 +24,7 @@ var vx := 0.0
 var vy := 0.0
 var state
 var wa := 0.0
-var wet := 0
+var wet := 0.0
 var in_water := false
 var inst
 var is_dead := false
@@ -42,11 +42,14 @@ func _physics_process(delta):
 		var fr = pow(0.5, delta) # 0.95 initially
 		vx *= fr
 		vy *= fr
-		wet += 0.015 * delta;
+		wet += 0.15 * delta;
 		if vy > 0:
 			vy *= pow(0.9, delta)
 	elif wet > 0:
 		wet = max(0, wet - 0.02 * delta)
+	if wet > 1:
+		setState(STATES.DEATH)
+
 	position.x += vx * delta * 2
 	position.y += vy * delta * 2
 	if position.y > 0:
@@ -57,6 +60,8 @@ func _physics_process(delta):
 		position.x = get_viewport().size.x
 
 func _process(delta):
+	$WaterParticles.emitting = in_water
+	$WaterParticles.amount_ratio = clampf(0.2 + wet, 0, 1)
 	if state == STATES.GRAB:
 		var a = (current_wheel.rotation - wa) + PI / 2
 		position.x = current_wheel.position.x + cos(a) * current_wheel.ray;
@@ -72,6 +77,7 @@ func _process(delta):
 		#if Input.is_action_just_pressed('jump'):
 			#vy = -750
 			# vx = 0
+		$FlyParticles.emitting = true
 		if position.x < WALL_SIZE:
 			position.x = WALL_SIZE
 			setState(STATES.WALL_SLIDE)
@@ -106,7 +112,7 @@ func _process(delta):
 		$AnimationPlayer.seek(clamp(Vector2(vx, vy).length() / 1000, 0.0, 1.0))
 	elif state == STATES.DEATH:
 		# Handle death logic
-		wet -= 0.02 * delta
+		wet -= 0.2 * delta
 
 func setState(new_state: STATES) -> void:
 	match state:
@@ -115,6 +121,7 @@ func setState(new_state: STATES) -> void:
 			friction = 1
 			vx = 0
 			vy = 0
+			$FlyParticles.emitting = false
 		STATES.GRAB:
 			rotation = 0
 	state = new_state

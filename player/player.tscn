@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://cwtdwnfixk5vk"]
+[gd_scene load_steps=67 format=3 uid="uid://cwtdwnfixk5vk"]
 
 [ext_resource type="Texture2D" uid="uid://cg7ftsl3iwsee" path="res://player/body_grounded.svg" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://bcf1oc76f67mc" path="res://player/player.gd" id="1_onrkg"]
@@ -50,6 +50,8 @@
 [ext_resource type="Texture2D" uid="uid://b3nolngabujc4" path="res://player/explosion_cloud/212.svg" id="48_jfgxe"]
 [ext_resource type="Texture2D" uid="uid://ddru7fps0hgh1" path="res://player/explosion_cloud/214.svg" id="49_yg0n1"]
 [ext_resource type="Texture2D" uid="uid://crhkx6ggv72qs" path="res://player/explosion_cloud/216.svg" id="50_qjt2w"]
+[ext_resource type="Texture2D" uid="uid://c4asmdu4ccsyt" path="res://player/bubble.svg" id="51_w7j2h"]
+[ext_resource type="Texture2D" uid="uid://dbfrunwgpvx1r" path="res://player/oil_drop.svg" id="52_n0b8q"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2lfai"]
 animations = [{
@@ -751,6 +753,30 @@ _data = {
 &"RESET": SubResource("Animation_b26j0")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_n0b8q"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(0, 1, 1)
+initial_velocity_min = -30.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, -100, 0)
+linear_accel_min = -10.0
+linear_accel_max = 100.0
+scale_min = 0.2
+scale_max = 0.7
+
+[sub_resource type="Curve" id="Curve_jfgyi"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.402598, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_237xx"]
+curve = SubResource("Curve_jfgyi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wpyo2"]
+lifetime_randomness = 0.33
+particle_flag_disable_z = true
+gravity = Vector3(0, 400, 0)
+scale_curve = SubResource("CurveTexture_237xx")
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_onrkg")
 metadata/_edit_group_ = true
@@ -853,3 +879,18 @@ shape = SubResource("CapsuleShape2D_onrkg")
 libraries = {
 &"": SubResource("AnimationLibrary_n7ghd")
 }
+
+[node name="WaterParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 25
+texture = ExtResource("51_w7j2h")
+lifetime = 2.0
+speed_scale = 0.7
+randomness = 0.42
+process_material = SubResource("ParticleProcessMaterial_n0b8q")
+
+[node name="FlyParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 15
+texture = ExtResource("52_n0b8q")
+process_material = SubResource("ParticleProcessMaterial_wpyo2")

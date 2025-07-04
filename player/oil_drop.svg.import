@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dbfrunwgpvx1r"
-path="res://.godot/imported/163.svg-a04e89fac69066a29c12f818327d0127.ctex"
+path="res://.godot/imported/oil_drop.svg-e595654d781bf168a2ab15f33671cc00.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://shapes/163.svg"
-dest_files=["res://.godot/imported/163.svg-a04e89fac69066a29c12f818327d0127.ctex"]
+source_file="res://player/oil_drop.svg"
+dest_files=["res://.godot/imported/oil_drop.svg-e595654d781bf168a2ab15f33671cc00.ctex"]
 
 [params]
 

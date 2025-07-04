@@ -10,8 +10,8 @@ func _ready() -> void:
 	# $TopArea.connect("body_exited", Callable(self, "_on_top_area_body_exited"))
 	# $BottomArea.connect("body_entered", Callable(self, "_on_bottom_area_body_entered"))
 	# $BottomArea.connect("body_exited", Callable(self, "_on_bottom_area_body_exited"))
-	position.y = 1500
-	#position.y = 0
+	#position.y = 1500
+	position.y = 100
 
 func _physics_process(delta: float) -> void:
 	water_boost += water_speed_increment * delta
