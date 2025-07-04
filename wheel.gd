@@ -21,18 +21,40 @@ var texture
 var angle := 0.0
 var speed := 0.0
 var ray
+var wheel: MeshInstance2D
 
 func _ready() -> void:
 	if possible_wheels.size() > 0:
 		texture = possible_wheels[randi() % possible_wheels.size()]
 	else:
 		push_error("No wheels available to set texture.")
-	# scale.x = ray * 2.0 / $Sprite2D.texture.get_width()
-	# scale.y = ray * 2.0 / $Sprite2D.texture.get_height()
 	if randi() % 2 == 0:
 		speed *= -1.0
 	$CollisionShape2D.shape = CircleShape2D.new()
 	$CollisionShape2D.shape.radius = ray
+	wheel = spawn_wheel()
+	
+func set_ray(_ray: float):
+	ray = _ray
+	
+	var sprite_size = texture.get_size()
+	var scale_factor = ray * 2 / sprite_size.x
+
+	$Mesh.mesh.size = sprite_size * scale_factor
+
+func spawn_wheel() -> MeshInstance2D:
+	var sprite_size = texture.get_size()
+	var scale_factor = ray * 2 / sprite_size.x
+	var quad = QuadMesh.new()
+	quad.size = sprite_size * scale_factor
+
+	var mi = MeshInstance2D.new()
+	mi.mesh = quad
+	mi.texture = texture
+	mi.name = 'Mesh'
+
+	add_child(mi)
+	return mi
 
 func _process(_delta: float) -> void:
 	var zoom = get_viewport_transform().get_scale().x

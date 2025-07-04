@@ -53,9 +53,6 @@ func _process(delta):
 		rotation = a
 		inst = min(inst + 0.1 * delta, 1)
 		
-		# var body = downcast(root).bl
-		# var pince = downcast(root).pince
-		
 		if Input.is_action_just_pressed('jump'):
 			jump(a)
 		pass
@@ -71,7 +68,6 @@ func _process(delta):
 			position.x = get_viewport().size.x - 2 * WALL_SIZE
 			setState(STATES.WALL_SLIDE)
 		var speed = Vector2(vx, vy).length()
-		# print("Speed: ", speed)
 		rotation = atan2(vy, vx)
 		$AnimationPlayer.play('Flying')
 		$AnimationPlayer.seek(clamp(speed / 1000, 0.0, 1.0))

@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ceg3kwcsopb8p"]
+[gd_scene load_steps=6 format=3 uid="uid://ceg3kwcsopb8p"]
 
 [ext_resource type="Script" uid="uid://dwa3sab0sc3yc" path="res://wheel.gd" id="1_e0ure"]
 [ext_resource type="Texture2D" uid="uid://b0ymin8v8lj6x" path="res://shapes/93.svg" id="2_gwn81"]
 [ext_resource type="Texture2D" uid="uid://btvxbhl7b3s6" path="res://shapes/94.svg" id="3_3mgug"]
 [ext_resource type="Texture2D" uid="uid://ckjp13ag17ufv" path="res://shapes/95.svg" id="4_fqxq6"]
 [ext_resource type="Texture2D" uid="uid://ccc76yyth27ls" path="res://shapes/96.svg" id="5_w0tbm"]
-[ext_resource type="Script" uid="uid://s7cpenmsh66s" path="res://wheel_drawer.gd" id="6_fqxq6"]
 
 [node name="Wheel" type="Area2D"]
 script = ExtResource("1_e0ure")
@@ -14,8 +13,5 @@ possible_wheels = Array[CompressedTexture2D]([ExtResource("2_gwn81"), ExtResourc
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="MinesList" type="Node2D" parent="."]
-
-[node name="WheelDrawer" type="Node2D" parent="."]
-script = ExtResource("6_fqxq6")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

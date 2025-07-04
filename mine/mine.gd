@@ -11,5 +11,10 @@ func _on_body_entered(body: Node2D) -> void:
 		cs.add_child(self)
 
 		global_position = world_pos
-		$AnimatedSprite2D.play("explosion")
+		explode_and_die()
 		body.setState(body.STATES.DEATH)
+
+func explode_and_die() -> void:
+	$AnimatedSprite2D.play("explosion")
+	await $AnimatedSprite2D.animation_finished
+	queue_free()

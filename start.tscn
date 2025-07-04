@@ -23,8 +23,6 @@ expand_margin_bottom = 45.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y5hus"]
 bg_color = Color(0.843137, 0.843137, 0.843137, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
 
 [sub_resource type="LabelSettings" id="LabelSettings_oiuna"]
 font = ExtResource("1_qn1rc")
@@ -45,7 +43,7 @@ font = ExtResource("1_ots34")
 font_size = 50
 font_color = Color(0.566967, 0.566967, 0.566967, 1)
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="Start" type="CanvasLayer"]
 script = ExtResource("1_1n0d2")
 
 [node name="ColorRect" type="ColorRect" parent="."]
