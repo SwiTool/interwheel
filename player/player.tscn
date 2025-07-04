@@ -826,6 +826,7 @@ visible = false
 scale = Vector2(0.8, 0.8)
 
 [node name="Splash" type="Sprite2D" parent="Death"]
+visible = false
 position = Vector2(19, 0)
 texture = ExtResource("19_pylmc")
 

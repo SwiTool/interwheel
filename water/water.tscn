@@ -4,10 +4,10 @@
 [ext_resource type="Shader" uid="uid://cmq22hdo0hhjh" path="res://water/water.gdshader" id="1_qi1wl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dcmoc"]
-size = Vector2(1500, 414)
+size = Vector2(1500, 1500)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmoj4"]
-size = Vector2(1500, 1086)
+size = Vector2(1500, 1076)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wcun"]
 shader = ExtResource("1_qi1wl")
@@ -17,6 +17,8 @@ shader_parameter/noise_speed = 0.7
 shader_parameter/rect_color = Color(0.380392, 0.827451, 0.898039, 0.901961)
 
 [sub_resource type="QuadMesh" id="QuadMesh_dcmoc"]
+size = Vector2(1500, 3000)
+center_offset = Vector3(0, 1500, 0)
 
 [node name="Water" type="Node2D"]
 script = ExtResource("1_m8een")
@@ -24,21 +26,20 @@ script = ExtResource("1_m8een")
 [node name="TopArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TopArea"]
-position = Vector2(750, 207)
+position = Vector2(750, 750)
 shape = SubResource("RectangleShape2D_dcmoc")
 debug_color = Color(0, 0.65098, 0.0862745, 0.137255)
 
 [node name="BottomArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomArea"]
-position = Vector2(750, 957)
+position = Vector2(750, 962)
 shape = SubResource("RectangleShape2D_qmoj4")
 debug_color = Color(0.996078, 0, 0.192157, 0.109804)
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
 material = SubResource("ShaderMaterial_7wcun")
-position = Vector2(750, 1459.5)
-scale = Vector2(1500, 2919)
+position = Vector2(750, 0)
 mesh = SubResource("QuadMesh_dcmoc")
 
 [connection signal="body_entered" from="TopArea" to="." method="_on_top_area_body_entered"]

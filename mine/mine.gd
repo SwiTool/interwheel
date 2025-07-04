@@ -13,6 +13,7 @@ func _on_body_entered(body: Node2D) -> void:
 		global_position = world_pos
 		explode_and_die()
 		body.setState(body.STATES.DEATH)
+		body.get_node('Death/Splash').visible = true
 
 func explode_and_die() -> void:
 	$AnimatedSprite2D.play("explosion")

@@ -24,6 +24,8 @@ var vx := 0.0
 var vy := 0.0
 var state
 var wa := 0.0
+var wet := 0
+var in_water := false
 var inst
 var is_dead := false
 
@@ -32,10 +34,19 @@ func _physics_process(delta):
 		return
 	if weight > 0:
 		vy += weight * delta
-	if (friction > 0):
+	if friction > 0:
 		var f = pow(friction, delta)
 		vx *= f
 		vy *= f
+	if in_water:
+		var fr = pow(0.5, delta) # 0.95 initially
+		vx *= fr
+		vy *= fr
+		wet += 0.015 * delta;
+		if vy > 0:
+			vy *= pow(0.9, delta)
+	elif wet > 0:
+		wet = max(0, wet - 0.02 * delta)
 	position.x += vx * delta * 2
 	position.y += vy * delta * 2
 	if position.y > 0:
@@ -58,8 +69,8 @@ func _process(delta):
 		pass
 	elif state == STATES.FLY:
 		# Handle flying logic
-		if Input.is_action_just_pressed('jump'):
-			vy = -750
+		#if Input.is_action_just_pressed('jump'):
+			#vy = -750
 			# vx = 0
 		if position.x < WALL_SIZE:
 			position.x = WALL_SIZE
@@ -95,7 +106,7 @@ func _process(delta):
 		$AnimationPlayer.seek(clamp(Vector2(vx, vy).length() / 1000, 0.0, 1.0))
 	elif state == STATES.DEATH:
 		# Handle death logic
-		pass
+		wet -= 0.02 * delta
 
 func setState(new_state: STATES) -> void:
 	match state:
