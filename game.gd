@@ -21,8 +21,8 @@ var wheels = []
 func _ready() -> void:
 	Engine.time_scale = 1.0
 	$Player.connect("request_focus", Callable(self, "_on_request_focus"))
-	mcw = get_viewport().size.x
-	mch = get_viewport().size.y
+	mcw = get_viewport().get_visible_rect().size.x
+	mch = get_viewport().get_visible_rect().size.y
 	initWheels()
 	initDecor()
 	for wheel in get_tree().get_nodes_in_group("wheels"):
@@ -65,9 +65,10 @@ func initWheels() -> void:
 	var ow = spawn_wheel(mcw * 0.5, -680, owRay, 1.0)
 
 	for i: float in max_wheels:
-		var c = clamp((i / max_wheels) + randf_range(-1, 1) * dif_randomizer, 0.0, 1.0)
-		var c2 = clamp((i / max_wheels) + randf_range(-1, 1) * dif_randomizer, 0.0, 1.0)
-		var c3 = clamp((i / max_wheels) + randf_range(-1, 1) * dif_randomizer, 0.0, 1.0)
+		var c = clampf((i / max_wheels) + randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
+		var c2 = clampf((i / max_wheels) + randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
+		var c3 = clampf((i / max_wheels) + randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
+		print('wheel %d: %.2f / %.2f / %.2f' % [i + 1, c, c2, c3])
 
 		var ray = ow.RAY_MIN + (1-c2)*(ow.RAY_MAX - ow.RAY_MIN) + randf_range(0, ow.RAY_RANDOM)
 		var speed = ow.SPEED_MIN + c3*(ow.SPEED_MAX - ow.SPEED_MIN) + randf_range(0, ow.SPEED_RANDOM)
@@ -91,7 +92,6 @@ func initWheels() -> void:
 			if flBreak:
 				break;
 
-		# //w.addMine();
 		while randf() + 0.4 < c:
 			w.addMine();
 

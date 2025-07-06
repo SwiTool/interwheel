@@ -40,7 +40,7 @@ func set_ray(_ray: float):
 	var sprite_size = texture.get_size()
 	var scale_factor = ray * 2 / sprite_size.x
 
-	$Mesh.mesh.size = sprite_size * scale_factor
+	$WheelMesh/Mesh.mesh.size = sprite_size * scale_factor
 
 func spawn_wheel() -> MeshInstance2D:
 	var sprite_size = texture.get_size()
@@ -53,13 +53,11 @@ func spawn_wheel() -> MeshInstance2D:
 	mi.texture = texture
 	mi.name = 'Mesh'
 
-	add_child(mi)
+	$WheelMesh.add_child(mi)
 	return mi
 
 func _process(_delta: float) -> void:
-	var zoom = get_viewport_transform().get_scale().x
-	var radius_units = ray / zoom
-	$CollisionShape2D.shape.radius = radius_units
+	$CollisionShape2D.shape.radius = ray
 	pass
 
 func _physics_process(delta):

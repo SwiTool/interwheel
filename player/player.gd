@@ -56,8 +56,8 @@ func _physics_process(delta):
 		position.y = 0
 	if position.x < 0:
 		position.x = 0
-	if position.x > get_viewport().size.x:
-		position.x = get_viewport().size.x
+	if position.x > get_viewport().get_visible_rect().size.x:
+		position.x = get_viewport().get_visible_rect().size.x
 
 func _process(delta):
 	$WaterParticles.emitting = in_water
@@ -81,8 +81,8 @@ func _process(delta):
 		if position.x < WALL_SIZE:
 			position.x = WALL_SIZE
 			setState(STATES.WALL_SLIDE)
-		if position.x > get_viewport().size.x - 2 * WALL_SIZE:
-			position.x = get_viewport().size.x - 2 * WALL_SIZE
+		if position.x > get_viewport().get_visible_rect().size.x - 2 * WALL_SIZE:
+			position.x = get_viewport().get_visible_rect().size.x - 2 * WALL_SIZE
 			setState(STATES.WALL_SLIDE)
 		var speed = Vector2(vx, vy).length()
 		rotation = atan2(vy, vx)
@@ -96,8 +96,8 @@ func _process(delta):
 		if position.x < WALL_SIZE:
 			position.x = WALL_SIZE
 			vx = -vx
-		if position.x > get_viewport().size.x - 2 * WALL_SIZE:
-			position.x = get_viewport().size.x - 2 * WALL_SIZE
+		if position.x > get_viewport().get_visible_rect().size.x - 2 * WALL_SIZE:
+			position.x = get_viewport().get_visible_rect().size.x - 2 * WALL_SIZE
 			vx = -vx
 		pass
 	elif state == STATES.WALL_SLIDE:
@@ -105,7 +105,7 @@ func _process(delta):
 		vy += 160 * delta;
 		vy *= pow(0.92, delta)
 		if Input.is_action_just_pressed('jump'):
-			var sens = 1 if (position.x < get_viewport().size.x / 2) else -1
+			var sens = 1 if (position.x < get_viewport().get_visible_rect().size.x / 2) else -1
 			jump(-PI / 2 + JUMP_SIDE_ANGLE * sens)
 		pass
 		$AnimationPlayer.play('Falling')
@@ -128,7 +128,7 @@ func setState(new_state: STATES) -> void:
 	match state:
 		STATES.GROUNDED:
 			# Transition to grounded
-			vx = GROUND_SPEED if position.x < get_viewport().size.x / 2 else -GROUND_SPEED
+			vx = GROUND_SPEED if position.x < get_viewport().get_visible_rect().size.x / 2 else -GROUND_SPEED
 			vy = 0
 			weight = 0
 			$AnimationPlayer.play("Grounded")
