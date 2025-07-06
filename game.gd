@@ -12,6 +12,7 @@ const SPACE = 40
 @export var wheel_dist_max := 600
 
 const wheel_scene = preload("res://wheel.tscn")
+const pastille_scene = preload("res://pastille/pastille.tscn")
 var mcw
 var mch
 var is_end = true
@@ -25,6 +26,7 @@ func _ready() -> void:
 	mch = get_viewport().get_visible_rect().size.y
 	initWheels()
 	initDecor()
+	initPastilles()
 	for wheel in get_tree().get_nodes_in_group("wheels"):
 		wheel.connect("request_focus", Callable(self, "_on_request_focus"))
 	$Player.current_wheel = wheels[0]
@@ -36,7 +38,7 @@ func _on_request_focus(target: Node2D) -> void:
 	if target != null:
 		$Camera2D.current_target = target
 
-func _process(delta):
+func _process(_delta):
 	$HUD.set_depth(abs(int($Player.position.y / 20)))
 
 func end_game():
@@ -68,7 +70,7 @@ func initWheels() -> void:
 		var c = clampf((i / max_wheels) + randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
 		var c2 = clampf((i / max_wheels) + randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
 		var c3 = clampf((i / max_wheels) + randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
-		print('wheel %d: %.2f / %.2f / %.2f' % [i + 1, c, c2, c3])
+		#print('wheel %d: %.2f / %.2f / %.2f' % [i + 1, c, c2, c3])
 
 		var ray = ow.RAY_MIN + (1-c2)*(ow.RAY_MAX - ow.RAY_MIN) + randf_range(0, ow.RAY_RANDOM)
 		var speed = ow.SPEED_MIN + c3*(ow.SPEED_MAX - ow.SPEED_MIN) + randf_range(0, ow.SPEED_RANDOM)
@@ -126,6 +128,19 @@ func initWheels() -> void:
 #     roof = ow.y - ow.ray
 #     eList.push({list:list,s:Cs.START_WHEEL_ID,e:Cs.START_WHEEL_ID-1})
 # }
+
+func initPastilles():
+	var y = -500
+	while y > wheels[wheels.size() - 1].position.y:
+		#print(y / wheels[wheels.size() - 1].position.y)
+		if randf() < y/wheels[wheels.size() - 1].position.y:
+			var p = pastille_scene.instantiate()
+			var m = SIDE + p.ray
+			p.position.x = randf_range(m, mcw - m)
+			p.position.y = y
+			$Pastilles.add_child(p)
+			# list.push(p)
+		y -= 100
 
 func initDecor():
 	pass

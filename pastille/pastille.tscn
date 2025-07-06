@@ -1,0 +1,38 @@
+[gd_scene load_steps=10 format=3 uid="uid://dqc0n7uiwx1tt"]
+
+[ext_resource type="Script" uid="uid://ddimefq5eioix" path="res://pastille/pastille.gd" id="1_ag3fy"]
+[ext_resource type="Script" uid="uid://dqlo61obmnccw" path="res://pastille/point_token.gd" id="2_o0kya"]
+[ext_resource type="Texture2D" uid="uid://d2gl4kkjgvcgi" path="res://pastille/158.svg" id="3_gmae4"]
+[ext_resource type="Texture2D" uid="uid://bn567u8cvlx62" path="res://pastille/159.svg" id="4_eyct4"]
+[ext_resource type="Texture2D" uid="uid://deqqskabtb6qw" path="res://pastille/160.svg" id="5_i64a1"]
+[ext_resource type="Texture2D" uid="uid://b0nvw1oewm630" path="res://pastille/157.svg" id="6_3nkai"]
+
+[sub_resource type="Resource" id="Resource_fic0e"]
+script = ExtResource("2_o0kya")
+texture = ExtResource("3_gmae4")
+points = 250
+probability = 1.0
+metadata/_custom_type_script = "uid://dqlo61obmnccw"
+
+[sub_resource type="Resource" id="Resource_8wguy"]
+script = ExtResource("2_o0kya")
+texture = ExtResource("4_eyct4")
+points = 1000
+probability = 0.033
+metadata/_custom_type_script = "uid://dqlo61obmnccw"
+
+[sub_resource type="Resource" id="Resource_lm8as"]
+script = ExtResource("2_o0kya")
+texture = ExtResource("5_i64a1")
+points = 5000
+probability = 0.005
+metadata/_custom_type_script = "uid://dqlo61obmnccw"
+
+[node name="Pastille" type="Node2D"]
+script = ExtResource("1_ag3fy")
+pastilles = Array[ExtResource("2_o0kya")]([SubResource("Resource_fic0e"), SubResource("Resource_8wguy"), SubResource("Resource_lm8as")])
+
+[node name="BgSprite" type="Sprite2D" parent="."]
+texture = ExtResource("6_3nkai")
+
+[node name="PastilleSprite" type="Sprite2D" parent="."]

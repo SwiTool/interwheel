@@ -74,8 +74,8 @@ func _process(delta):
 		pass
 	elif state == STATES.FLY:
 		# Handle flying logic
-		#if Input.is_action_just_pressed('jump'):
-			#vy = -750
+		if Input.is_action_just_pressed('jump'):
+			vy = -750
 			# vx = 0
 		$FlyParticles.emitting = true
 		if position.x < WALL_SIZE:

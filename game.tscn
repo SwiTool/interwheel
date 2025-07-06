@@ -105,6 +105,8 @@ script = ExtResource("5_mfdv2")
 position = Vector2(416, -700)
 up_direction = Vector2(0, 1)
 
+[node name="Pastilles" type="Node2D" parent="."]
+
 [node name="Wheels" type="Node2D" parent="."]
 
 [node name="Water" parent="." instance=ExtResource("9_vef74")]
