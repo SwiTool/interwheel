@@ -68,7 +68,7 @@ func _physics_process(delta):
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player" && body.state == body.STATES.FLY:
-		emit_signal("request_focus", self)
+		emit_signal("request_focus", self, -250)
 		body.current_wheel = self
 		body.setState(body.STATES.GRAB)
 

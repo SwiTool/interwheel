@@ -7,7 +7,7 @@
 size = Vector2(1500, 1500)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmoj4"]
-size = Vector2(1500, 860)
+size = Vector2(1500, 616)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wcun"]
 shader = ExtResource("1_qi1wl")
@@ -33,7 +33,7 @@ debug_color = Color(0, 0.65098, 0.0862745, 0.137255)
 [node name="BottomArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BottomArea"]
-position = Vector2(750, 1070)
+position = Vector2(750, 1192)
 shape = SubResource("RectangleShape2D_qmoj4")
 debug_color = Color(0.996078, 0, 0.192157, 0.109804)
 

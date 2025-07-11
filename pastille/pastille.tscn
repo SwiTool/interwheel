@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dqc0n7uiwx1tt"]
+[gd_scene load_steps=27 format=3 uid="uid://dqc0n7uiwx1tt"]
 
 [ext_resource type="Script" uid="uid://ddimefq5eioix" path="res://pastille/pastille.gd" id="1_ag3fy"]
 [ext_resource type="Script" uid="uid://dqlo61obmnccw" path="res://pastille/point_token.gd" id="2_o0kya"]
@@ -6,6 +6,20 @@
 [ext_resource type="Texture2D" uid="uid://bn567u8cvlx62" path="res://pastille/159.svg" id="4_eyct4"]
 [ext_resource type="Texture2D" uid="uid://deqqskabtb6qw" path="res://pastille/160.svg" id="5_i64a1"]
 [ext_resource type="Texture2D" uid="uid://b0nvw1oewm630" path="res://pastille/157.svg" id="6_3nkai"]
+[ext_resource type="Texture2D" uid="uid://dwgr26vai8q5u" path="res://pastille/148.svg" id="7_n7uhm"]
+[ext_resource type="Texture2D" uid="uid://d0d16trw2174x" path="res://pastille/140.svg" id="8_twoaa"]
+[ext_resource type="Texture2D" uid="uid://fcohna4mypl3" path="res://pastille/141.svg" id="9_tur08"]
+[ext_resource type="Texture2D" uid="uid://d4aufy8244k5f" path="res://pastille/142.svg" id="10_0foyl"]
+[ext_resource type="Texture2D" uid="uid://bgp6bjitvxah3" path="res://pastille/143.svg" id="11_i7nln"]
+[ext_resource type="Texture2D" uid="uid://dr0eu0ejlh3qj" path="res://pastille/144.svg" id="12_quasq"]
+[ext_resource type="Texture2D" uid="uid://dts13wpf5mtps" path="res://pastille/145.svg" id="13_62ulc"]
+[ext_resource type="Texture2D" uid="uid://c4phxs4e6j3uy" path="res://pastille/146.svg" id="14_4uxo8"]
+[ext_resource type="Texture2D" uid="uid://2oo7g6xd63mt" path="res://pastille/147.svg" id="15_b57oa"]
+[ext_resource type="Texture2D" uid="uid://bykyyi7vfdnep" path="res://pastille/149.svg" id="16_trddg"]
+[ext_resource type="Texture2D" uid="uid://c2rqf02t5s27k" path="res://pastille/150.svg" id="17_bso5p"]
+[ext_resource type="Texture2D" uid="uid://bqu70hb0j7opo" path="res://pastille/151.svg" id="18_miff8"]
+[ext_resource type="Texture2D" uid="uid://cr2v5hb5cdu8c" path="res://pastille/152.svg" id="19_ta81h"]
+[ext_resource type="Texture2D" uid="uid://jqyjiti18fh8" path="res://pastille/153.svg" id="20_jkuu7"]
 
 [sub_resource type="Resource" id="Resource_fic0e"]
 script = ExtResource("2_o0kya")
@@ -28,6 +42,62 @@ points = 5000
 probability = 0.005
 metadata/_custom_type_script = "uid://dqlo61obmnccw"
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_gmae4"]
+radius = 100.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eyct4"]
+radius = 25.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rq1sk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_n7uhm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_twoaa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_tur08")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_0foyl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_i7nln")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_quasq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_62ulc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_4uxo8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_b57oa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_trddg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_bso5p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_miff8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_ta81h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_jkuu7")
+}],
+"loop": false,
+"name": &"default",
+"speed": 25.0
+}]
+
 [node name="Pastille" type="Node2D"]
 script = ExtResource("1_ag3fy")
 pastilles = Array[ExtResource("2_o0kya")]([SubResource("Resource_fic0e"), SubResource("Resource_8wguy"), SubResource("Resource_lm8as")])
@@ -36,3 +106,21 @@ pastilles = Array[ExtResource("2_o0kya")]([SubResource("Resource_fic0e"), SubRes
 texture = ExtResource("6_3nkai")
 
 [node name="PastilleSprite" type="Sprite2D" parent="."]
+
+[node name="OuterArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OuterArea"]
+shape = SubResource("CircleShape2D_gmae4")
+
+[node name="CenterArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterArea"]
+shape = SubResource("CircleShape2D_eyct4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_rq1sk")
+
+[connection signal="area_entered" from="OuterArea" to="." method="_on_outer_area_area_entered"]
+[connection signal="body_entered" from="CenterArea" to="." method="_on_center_area_body_entered"]

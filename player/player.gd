@@ -29,6 +29,8 @@ var in_water := false
 var inst
 var is_dead := false
 
+var pastilles_eaten := 0
+
 func _physics_process(delta):
 	if is_dead:
 		return
@@ -74,8 +76,8 @@ func _process(delta):
 		pass
 	elif state == STATES.FLY:
 		# Handle flying logic
-		if Input.is_action_just_pressed('jump'):
-			vy = -750
+		#if Input.is_action_just_pressed('jump'):
+			#vy = -750
 			# vx = 0
 		$FlyParticles.emitting = true
 		if position.x < WALL_SIZE:
@@ -102,7 +104,7 @@ func _process(delta):
 		pass
 	elif state == STATES.WALL_SLIDE:
 		# Handle wall slide logic
-		vy += 160 * delta;
+		vy += 200 * delta;
 		vy *= pow(0.92, delta)
 		if Input.is_action_just_pressed('jump'):
 			var sens = 1 if (position.x < get_viewport().get_visible_rect().size.x / 2) else -1
@@ -166,35 +168,16 @@ func setState(new_state: STATES) -> void:
 			get_parent().end_game()
 			pass
 	if state != STATES.GRAB:
-		emit_signal("request_focus", self)
+		emit_signal("request_focus", self, -250)
 
 func jump(a):
 	# Cs.game.stats.$jp++
-	# var max = 4
-	# for( var i=0; i<max; i++ ){
-	# 	var dec = Math.random()*2-1
-	# 	var na = a + dec*0.8
-	# 	var sp = 8-Math.abs(dec)*6
-	# 	var c = i/max
-	# 	var p = newPart();
-	# 	p.vx = Math.cos(na)*sp
-	# 	p.vy = Math.sin(na)*sp
-	# 	p.setScale(50+c*100);
-	# 	p.timer = 10+Math.random()*30
-	# 	p.weight = 0.2+c*0.2
-	# }
-
 	vx = cos(a) * JUMP
 	vy = sin(a) * JUMP			
 	setState(STATES.FLY)
 	current_wheel = null;
 
-#func on_wall_touched() -> void:
-#	if state == STATES.FLY:
-#		setState(STATES.WALL_SLIDE)
-#	elif state == STATES.GROUNDED:
-#		vx = -vx
-
 func on_ground_touched() -> void:
 	if state == STATES.FLY || state == STATES.WALL_SLIDE:
 		setState(STATES.GROUNDED)
+		emit_signal("request_focus", self, 0)

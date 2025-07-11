@@ -99,6 +99,7 @@ position = Vector2(-2, 61)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(750, -750)
+position_smoothing_enabled = true
 script = ExtResource("5_mfdv2")
 
 [node name="Player" parent="." instance=ExtResource("7_lc2xo")]

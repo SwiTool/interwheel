@@ -7,7 +7,7 @@ var max_depth := 0
 var depth_displayed := 0
 var depth_tween: Tween
 
-func add_score(_score):
+func add_score(_score: int):
 	score += _score
 
 	if score_tween:
@@ -27,6 +27,6 @@ func set_depth(depth):
 		depth_tween.tween_property(self, "depth_displayed", max_depth, 0.3).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
 func _process(delta):
-	$HBoxContainer/Score.text = str(round(score_displayed))
+	$HBoxContainer/ColorRect/Score.text = str(round(score_displayed))
 	$Depth.text = str(round(depth_displayed)) + 'm'
 	

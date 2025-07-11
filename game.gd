@@ -11,7 +11,7 @@ const SPACE = 40
 @export var wheel_dist_min := 400
 @export var wheel_dist_max := 600
 
-const wheel_scene = preload("res://wheel.tscn")
+const wheel_scene = preload("res://wheel/wheel.tscn")
 const pastille_scene = preload("res://pastille/pastille.tscn")
 var mcw
 var mch
@@ -25,7 +25,6 @@ func _ready() -> void:
 	mcw = get_viewport().get_visible_rect().size.x
 	mch = get_viewport().get_visible_rect().size.y
 	initWheels()
-	initDecor()
 	initPastilles()
 	for wheel in get_tree().get_nodes_in_group("wheels"):
 		wheel.connect("request_focus", Callable(self, "_on_request_focus"))
@@ -34,12 +33,16 @@ func _ready() -> void:
 	$Camera2D.current_target = $Player.current_wheel
 	game_initialized.emit()
 
-func _on_request_focus(target: Node2D) -> void:
+func _on_request_focus(target: Node2D, offset: float) -> void:
 	if target != null:
 		$Camera2D.current_target = target
+		$Camera2D.camera_offset_target = Vector2(0, offset)
 
 func _process(_delta):
 	$HUD.set_depth(abs(int($Player.position.y / 20)))
+	
+func add_score(points: int):
+	$HUD.add_score(points)
 
 func end_game():
 	var timer := 0.0
@@ -141,37 +144,3 @@ func initPastilles():
 			$Pastilles.add_child(p)
 			# list.push(p)
 		y -= 100
-
-func initDecor():
-	pass
-	# var wall = wall_scene.instantiate()
-	# var tex = wall.get_node("Sprite2D").texture
-	# var size = tex.get_height()
-	# var height = wheels[-1].position.y
-	# var xMax = mcw / size
-	# var yMax = height / size
-
-	# 0x00436B70 # wall color
-
-	# var by = 100
-	# while(by<2000){
-	#     if(Math.random()<0.2){
-	#         var link = "mcMotif"
-	#         var bx = Std.random(mcw)
-	#         if(Math.random()<0.2){
-	#             link = "mcFrise"
-	#             bx = mcw*0.5
-	#         }
-	#         var mc = gdm.attach(link,10)
-	#         by += mc._height*0.5
-	#         mc.gotoAndStop(string(Std.random(mc._totalframes)+1))
-	#         Cs.drawMcAt(bmp,mc,bx,by)
-	#         by += mc._height*0.5
-	#         mc.removeMovieClip();
-	#     }
-	#     by+= Std.random(100)
-	# }
-
-	# var skin = dm.empty(DP_BG)
-	# skin.attachBitmap(bmp,1)
-	# skin._y = -(n+1)*height
