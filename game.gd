@@ -6,10 +6,10 @@ const SIDE = 60
 const SPACE = 40
 
 @export var max_wheels := 50
-@export var dif_randomizer := 0.1
+@export var dif_randomizer := 0.03
 
 @export var wheel_dist_min := 400
-@export var wheel_dist_max := 600
+@export var wheel_dist_max := 550
 
 const wheel_scene = preload("res://wheel/wheel.tscn")
 const pastille_scene = preload("res://pastille/pastille.tscn")
@@ -29,7 +29,7 @@ func _ready() -> void:
 	for wheel in get_tree().get_nodes_in_group("wheels"):
 		wheel.connect("request_focus", Callable(self, "_on_request_focus"))
 	$Player.current_wheel = wheels[0]
-	$Player.setState(2)
+	$Player.set_state(2)
 	$Camera2D.current_target = $Player.current_wheel
 	game_initialized.emit()
 
@@ -75,8 +75,8 @@ func initWheels() -> void:
 		var c3 = clampf((i / max_wheels) + randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
 		#print('wheel %d: %.2f / %.2f / %.2f' % [i + 1, c, c2, c3])
 
-		var ray = ow.RAY_MIN + (1-c2)*(ow.RAY_MAX - ow.RAY_MIN) + randf_range(0, ow.RAY_RANDOM)
-		var speed = ow.SPEED_MIN + c3*(ow.SPEED_MAX - ow.SPEED_MIN) + randf_range(0, ow.SPEED_RANDOM)
+		var ray = ow.RAY_MIN + (1 - c2) * (ow.RAY_MAX - ow.RAY_MIN) + randf_range(0, ow.RAY_RANDOM)
+		var speed = ow.SPEED_MIN + c3 * (ow.SPEED_MAX - ow.SPEED_MIN) + randf_range(0, ow.SPEED_RANDOM)
 		var w = spawn_wheel(0, 0, ray, speed)
 
 		var dist = wheel_dist_min + c * (wheel_dist_max - wheel_dist_min) + (ow.ray + w.ray)
@@ -144,3 +144,7 @@ func initPastilles():
 			$Pastilles.add_child(p)
 			# list.push(p)
 		y -= 100
+
+
+func _on_player_death() -> void:
+	end_game()

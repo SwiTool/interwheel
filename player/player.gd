@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 signal request_focus(target)
+signal death()
 
 enum STATES {
 	GROUNDED,
@@ -9,19 +10,16 @@ enum STATES {
 	WALL_SLIDE,
 	DEATH,
 }
-
-const GROUND_SPEED = 250
 const RAY = 40
-const WEIGHT = 1200
-const JUMP = 800
+
+@export var ground_speed := 400.0
+@export var weight = 3.5
+@export var jump_force = 1800
 const JUMP_SIDE_ANGLE = PI / 4
-const WALL_SIZE = 40
 
 var current_wheel: Node2D
-var weight := 0.0
+var mass := 0.0
 var friction := 1.0
-var vx := 0.0
-var vy := 0.0
 var state
 var wa := 0.0
 var wet := 0.0
@@ -34,32 +32,52 @@ var pastilles_eaten := 0
 func _physics_process(delta):
 	if is_dead:
 		return
-	if weight > 0:
-		vy += weight * delta
+	if mass > 0:
+		velocity.y += mass * delta * get_gravity().y
 	if friction > 0:
 		var f = pow(friction, delta)
-		vx *= f
-		vy *= f
+		velocity *= f
 	if in_water:
-		var fr = pow(0.5, delta) # 0.95 initially
-		vx *= fr
-		vy *= fr
+		var fr = pow(0.75, delta) # 0.95 initially
+		velocity *= fr
 		wet += 0.15 * delta;
-		if vy > 0:
-			vy *= pow(0.9, delta)
+		if velocity.y > 0:
+			velocity.y *= pow(0.9, delta)
 	elif wet > 0:
 		wet = max(0, wet - 0.02 * delta)
 	if wet > 1:
-		setState(STATES.DEATH)
+		set_state(STATES.DEATH)
+	
 
-	position.x += vx * delta * 2
-	position.y += vy * delta * 2
-	if position.y > 0:
-		position.y = 0
-	if position.x < 0:
-		position.x = 0
-	if position.x > get_viewport().get_visible_rect().size.x:
-		position.x = get_viewport().get_visible_rect().size.x
+	if state == STATES.GRAB:
+		if Input.is_action_just_pressed('jump'):
+			jump(rotation)
+	elif state == STATES.FLY:
+		#if Input.is_action_just_pressed('jump'):
+		#	velocity.y = -jump_force
+		pass
+	elif state == STATES.GROUNDED:
+		if Input.is_action_just_pressed('jump'):
+			jump(-PI / 2)
+	elif state == STATES.WALL_SLIDE:
+		velocity.y += 500 * delta;
+		velocity.y *= pow(0.92, delta)
+		if Input.is_action_just_pressed('jump'):
+			var sens = 1 if (position.x < get_viewport().get_visible_rect().size.x / 2) else -1
+			jump(-PI / 2 + JUMP_SIDE_ANGLE * sens)
+
+	var collision_info = move_and_collide(velocity * delta, false, 0.08, true)
+	if collision_info:
+		if collision_info.get_collider().name == "GroundTiles":
+			if state == STATES.FLY || state == STATES.WALL_SLIDE:
+				set_state(STATES.GROUNDED)
+		elif collision_info.get_collider().name == "WallTiles":
+			if state == STATES.FLY:
+				set_state(STATES.WALL_SLIDE)
+			elif state == STATES.GROUNDED:
+				velocity.x = -velocity.x
+		else:
+			print(collision_info.get_collider().name)
 
 func _process(delta):
 	$WaterParticles.emitting = in_water
@@ -70,59 +88,24 @@ func _process(delta):
 		position.y = current_wheel.position.y + sin(a) * current_wheel.ray;
 		rotation = a
 		inst = min(inst + 0.1 * delta, 1)
-		
-		if Input.is_action_just_pressed('jump'):
-			jump(a)
-		pass
 	elif state == STATES.FLY:
-		# Handle flying logic
-		#if Input.is_action_just_pressed('jump'):
-			#vy = -750
-			# vx = 0
 		$FlyParticles.emitting = true
-		if position.x < WALL_SIZE:
-			position.x = WALL_SIZE
-			setState(STATES.WALL_SLIDE)
-		if position.x > get_viewport().get_visible_rect().size.x - 2 * WALL_SIZE:
-			position.x = get_viewport().get_visible_rect().size.x - 2 * WALL_SIZE
-			setState(STATES.WALL_SLIDE)
-		var speed = Vector2(vx, vy).length()
-		rotation = atan2(vy, vx)
+		var speed = velocity.length()
+		rotation = atan2(velocity.y, velocity.x)
 		$AnimationPlayer.play('Flying')
 		$AnimationPlayer.seek(clamp(speed / 1000, 0.0, 1.0))
-		pass
-	elif state == STATES.GROUNDED:
-		# Handle wall sliding logic
-		if Input.is_action_just_pressed('jump'):
-			jump(-PI / 2)
-		if position.x < WALL_SIZE:
-			position.x = WALL_SIZE
-			vx = -vx
-		if position.x > get_viewport().get_visible_rect().size.x - 2 * WALL_SIZE:
-			position.x = get_viewport().get_visible_rect().size.x - 2 * WALL_SIZE
-			vx = -vx
-		pass
 	elif state == STATES.WALL_SLIDE:
-		# Handle wall slide logic
-		vy += 200 * delta;
-		vy *= pow(0.92, delta)
-		if Input.is_action_just_pressed('jump'):
-			var sens = 1 if (position.x < get_viewport().get_visible_rect().size.x / 2) else -1
-			jump(-PI / 2 + JUMP_SIDE_ANGLE * sens)
-		pass
 		$AnimationPlayer.play('Falling')
-		$AnimationPlayer.seek(clamp(Vector2(vx, vy).length() / 1000, 0.0, 1.0))
+		$AnimationPlayer.seek(clamp(velocity.length() / 1000, 0.0, 1.0))
 	elif state == STATES.DEATH:
-		# Handle death logic
 		wet -= 0.2 * delta
 
-func setState(new_state: STATES) -> void:
+func set_state(new_state: STATES) -> void:
 	match state:
 		STATES.FLY:
-			weight = 0
+			mass = 0
 			friction = 1
-			vx = 0
-			vy = 0
+			velocity = Vector2.ZERO
 			$FlyParticles.emitting = false
 		STATES.GRAB:
 			rotation = 0
@@ -130,9 +113,8 @@ func setState(new_state: STATES) -> void:
 	match state:
 		STATES.GROUNDED:
 			# Transition to grounded
-			vx = GROUND_SPEED if position.x < get_viewport().get_visible_rect().size.x / 2 else -GROUND_SPEED
-			vy = 0
-			weight = 0
+			velocity = Vector2(ground_speed, 0)
+			mass = 0
 			$AnimationPlayer.play("Grounded")
 			rotation = -PI / 2
 			pass
@@ -140,20 +122,15 @@ func setState(new_state: STATES) -> void:
 			var ba = atan2(current_wheel.position.x - position.x, current_wheel.position.y - position.y) + PI
 			wa = wrapf(current_wheel.rotation + ba, 0, TAU)
 			$AnimationPlayer.play("Grabbing")
-			# $AnimationPlayer.play("default")
 			inst = 0
-			# Cs.game.focus = {y:cw.y-Cs.VIEW_WHEEL}
-			# ox=x
-			# oy=y
 			pass
 		STATES.FLY:
 			# Transition to flying
-			weight = WEIGHT
+			mass = weight
 			friction = 0.98
 			pass
 		STATES.WALL_SLIDE:
-			# Transition to water state
-			rotation = -PI / 2
+			rotation = 0
 			$AnimationPlayer.play('Falling')
 			pass
 		STATES.DEATH:
@@ -162,22 +139,20 @@ func setState(new_state: STATES) -> void:
 			# Handle death state
 			$AnimationPlayer.play('Death')
 			is_dead = true
-			vx = 0
-			vy = 0
-			weight = 0
-			get_parent().end_game()
+			# mass = 0
+			friction = 0.2
+			emit_signal('death')
 			pass
 	if state != STATES.GRAB:
-		emit_signal("request_focus", self, -250)
+		emit_signal('request_focus', self, 0)
 
 func jump(a):
 	# Cs.game.stats.$jp++
-	vx = cos(a) * JUMP
-	vy = sin(a) * JUMP			
-	setState(STATES.FLY)
+	velocity.x = cos(a) * jump_force
+	velocity.y = sin(a) * jump_force			
+	set_state(STATES.FLY)
 	current_wheel = null;
 
-func on_ground_touched() -> void:
-	if state == STATES.FLY || state == STATES.WALL_SLIDE:
-		setState(STATES.GROUNDED)
-		emit_signal("request_focus", self, 0)
+func pastille_hit(pastille: PointToken):
+	pastilles_eaten += 1
+	get_parent().add_score(pastille.points)

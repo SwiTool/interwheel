@@ -1,63 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxeaq0p8ox1pp"]
+[gd_scene load_steps=3 format=3 uid="uid://cxeaq0p8ox1pp"]
 
-[ext_resource type="Script" uid="uid://bksjkh0a586rf" path="res://ground.gd" id="1_t7tip"]
 [ext_resource type="Texture2D" uid="uid://sk71onecmqft" path="res://shapes/102.svg" id="1_yh8r4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t7tip"]
-size = Vector2(1600, 61)
+size = Vector2(200, 60)
 
-[node name="Ground" type="Area2D"]
-script = ExtResource("1_t7tip")
-
-[node name="Sprite2D3" type="Sprite2D" parent="."]
-rotation = -1.5708
-texture = ExtResource("1_yh8r4")
-centered = false
-
-[node name="Sprite2D4" type="Sprite2D" parent="."]
-position = Vector2(600, 0)
-rotation = -1.5708
-texture = ExtResource("1_yh8r4")
-centered = false
-
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-position = Vector2(400, 0)
-rotation = -1.5708
-texture = ExtResource("1_yh8r4")
-centered = false
+[node name="Ground" type="StaticBody2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(200, 0)
-rotation = -1.5708
-texture = ExtResource("1_yh8r4")
-centered = false
-
-[node name="Sprite2D5" type="Sprite2D" parent="."]
-position = Vector2(800, 0)
-rotation = -1.5708
-texture = ExtResource("1_yh8r4")
-centered = false
-
-[node name="Sprite2D6" type="Sprite2D" parent="."]
-position = Vector2(1400, 0)
-rotation = -1.5708
-texture = ExtResource("1_yh8r4")
-centered = false
-
-[node name="Sprite2D7" type="Sprite2D" parent="."]
-position = Vector2(1000, 0)
-rotation = -1.5708
-texture = ExtResource("1_yh8r4")
-centered = false
-
-[node name="Sprite2D8" type="Sprite2D" parent="."]
-position = Vector2(1200, 0)
 rotation = -1.5708
 texture = ExtResource("1_yh8r4")
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(802, -30.5)
+position = Vector2(100, -30)
 shape = SubResource("RectangleShape2D_t7tip")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

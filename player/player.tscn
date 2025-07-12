@@ -205,7 +205,7 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onrkg"]
-radius = 26.0
+radius = 18.0
 height = 60.0
 
 [sub_resource type="Animation" id="Animation_634y6"]
@@ -781,6 +781,8 @@ scale_curve = SubResource("CurveTexture_237xx")
 radius = 150.0
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 51
 script = ExtResource("1_onrkg")
 metadata/_edit_group_ = true
 
@@ -789,18 +791,17 @@ visible = false
 scale = Vector2(0.8, 0.8)
 
 [node name="Trail" type="Sprite2D" parent="Falling"]
-position = Vector2(-15, -7)
+position = Vector2(-34.75, -7)
 rotation = -1.5708
 scale = Vector2(0.25, 1)
 texture = ExtResource("4_1jxqw")
 centered = false
 
 [node name="Body" type="Sprite2D" parent="Falling"]
-position = Vector2(19.75, 0)
 texture = ExtResource("3_2hs0m")
 
 [node name="Eyes" type="Sprite2D" parent="Falling"]
-position = Vector2(20, 5)
+position = Vector2(0.25, 5)
 rotation = -1.5708
 texture = ExtResource("5_1jxqw")
 
@@ -834,7 +835,6 @@ visible = false
 scale = Vector2(0.8, 0.8)
 
 [node name="Body" type="Sprite2D" parent="Grounded"]
-position = Vector2(20, 0)
 rotation = 1.5708
 texture = ExtResource("1_4flbx")
 
@@ -874,8 +874,7 @@ position = Vector2(10, 5)
 texture = ExtResource("5_1jxqw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(19, 0)
+position = Vector2(-0.75, 0)
 shape = SubResource("CapsuleShape2D_onrkg")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -902,3 +901,4 @@ process_material = SubResource("ParticleProcessMaterial_wpyo2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MagnetArea"]
 shape = SubResource("CircleShape2D_n0b8q")
+debug_color = Color(0.521569, 0.541176, 0.521569, 0.0862745)

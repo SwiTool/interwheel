@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://ccc76yyth27ls" path="res://wheel/96.svg" id="5_w0tbm"]
 
 [node name="Wheel" type="Area2D"]
+collision_layer = 2
+collision_mask = 12
 script = ExtResource("1_e0ure")
 possible_wheels = Array[CompressedTexture2D]([ExtResource("2_gwn81"), ExtResource("3_3mgug"), ExtResource("4_fqxq6"), ExtResource("5_w0tbm")])
 

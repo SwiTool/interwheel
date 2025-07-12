@@ -35,7 +35,7 @@ func _on_top_area_body_exited(body: Node2D) -> void:
 func _on_bottom_area_body_entered(body: Node2D) -> void:
 	if body.name == 'Player':
 		print('Player entered deep water')
-		body.setState(body.STATES.DEATH)
+		body.set_state(body.STATES.DEATH)
 
 
 func _on_bottom_area_body_exited(body: Node2D) -> void:

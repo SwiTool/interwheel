@@ -15,7 +15,7 @@ func _process(_delta):
 	var pos = player.position
 	var info = ""
 	info += "Pos: (%.1f, %.1f)\n" % [pos.x, pos.y]
-	info += "Vel: (%.1f, %.1f)\n" % [player.vx, player.vy]
+	info += "Vel: (%.1f, %.1f)\n" % [player.velocity.x, player.velocity.y]
 	info += "Ang: %d (%.2f rad)\n" % [rad_to_deg(player.rotation), player.rotation]
 	info += "Wtr: %s\n" % player.in_water
 	info += "Wet: %.5f\n" % player.wet

@@ -4,8 +4,8 @@ signal request_focus(target)
 
 const mine_scene = preload("res://mine/mine.tscn")
 
-const RAY_MIN = 60
-const RAY_MAX  = 250
+const RAY_MIN = 40
+const RAY_MAX  = 160
 const RAY_RANDOM = 50
 
 const SPEED_MIN = 2
@@ -28,6 +28,8 @@ func _ready() -> void:
 		texture = possible_wheels[randi() % possible_wheels.size()]
 	else:
 		push_error("No wheels available to set texture.")
+	if randi() % 2 == 0:
+		speed *= -1.0
 	$CollisionShape2D.shape = CircleShape2D.new()
 	$CollisionShape2D.shape.radius = ray
 	wheel = spawn_wheel()
@@ -66,7 +68,7 @@ func _physics_process(delta):
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player" && body.state == body.STATES.FLY:
-		emit_signal("request_focus", self, -250)
+		emit_signal("request_focus", self)
 		body.current_wheel = self
 		body.set_state(body.STATES.GRAB)
 
