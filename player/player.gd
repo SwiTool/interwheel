@@ -10,7 +10,6 @@ enum STATES {
 	WALL_SLIDE,
 	DEATH,
 }
-const RAY = 40
 
 @export var ground_speed := 400.0
 @export var weight = 3.5
@@ -24,7 +23,6 @@ var state
 var wa := 0.0
 var wet := 0.0
 var in_water := false
-var inst
 var is_dead := false
 
 var pastilles_eaten := 0
@@ -53,14 +51,14 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed('jump'):
 			jump(rotation)
 	elif state == STATES.FLY:
-		#if Input.is_action_just_pressed('jump'):
-		#	velocity.y = -jump_force
+		if OS.is_debug_build() &&  Input.is_action_just_pressed('jump'):
+			velocity.y = -jump_force
 		pass
 	elif state == STATES.GROUNDED:
 		if Input.is_action_just_pressed('jump'):
 			jump(-PI / 2)
 	elif state == STATES.WALL_SLIDE:
-		velocity.y += 500 * delta;
+		velocity.y += 1000 * delta;
 		velocity.y *= pow(0.92, delta)
 		if Input.is_action_just_pressed('jump'):
 			var sens = 1 if (position.x < get_viewport().get_visible_rect().size.x / 2) else -1
@@ -87,7 +85,6 @@ func _process(delta):
 		position.x = current_wheel.position.x + cos(a) * current_wheel.ray;
 		position.y = current_wheel.position.y + sin(a) * current_wheel.ray;
 		rotation = a
-		inst = min(inst + 0.1 * delta, 1)
 	elif state == STATES.FLY:
 		$FlyParticles.emitting = true
 		var speed = velocity.length()
@@ -122,7 +119,6 @@ func set_state(new_state: STATES) -> void:
 			var ba = atan2(current_wheel.position.x - position.x, current_wheel.position.y - position.y) + PI
 			wa = wrapf(current_wheel.rotation + ba, 0, TAU)
 			$AnimationPlayer.play("Grabbing")
-			inst = 0
 			pass
 		STATES.FLY:
 			# Transition to flying

@@ -2,7 +2,7 @@ extends Node
 
 signal game_initialized
 
-const SIDE = 60
+const SIDE = 80
 const SPACE = 40
 
 @export var max_wheels := 50
@@ -148,3 +148,15 @@ func initPastilles():
 
 func _on_player_death() -> void:
 	end_game()
+
+func _on_camera_bounds_body_entered(body: Node2D) -> void:
+	var shape := $CameraBounds/CollisionShape2D.shape as RectangleShape2D
+	var shape_size := shape.size
+	var shape_pos = $CameraBounds/CollisionShape2D.global_position
+
+	var half_size := shape_size * 0.5
+
+	$Camera2D.limit_left = int(shape_pos.x - half_size.x)
+	$Camera2D.limit_right = int(shape_pos.x + half_size.x)
+	$Camera2D.limit_top = int(shape_pos.y - half_size.y)
+	$Camera2D.limit_bottom = int(shape_pos.y + half_size.y)

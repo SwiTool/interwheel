@@ -43,8 +43,9 @@ toggle_debug={
 2d_physics/layer_2="Wheels"
 2d_physics/layer_3="Collectables"
 2d_physics/layer_4="Player"
-2d_physics/layer_5="Mine"
+2d_physics/layer_5="Mines"
 2d_physics/layer_6="Water"
+2d_physics/layer_7="Triggers"
 
 [rendering]
 

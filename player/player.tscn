@@ -778,11 +778,11 @@ gravity = Vector3(0, 400, 0)
 scale_curve = SubResource("CurveTexture_237xx")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0b8q"]
-radius = 150.0
+radius = 250.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 8
-collision_mask = 51
+collision_mask = 115
 script = ExtResource("1_onrkg")
 metadata/_edit_group_ = true
 

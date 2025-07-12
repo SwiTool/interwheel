@@ -34,7 +34,14 @@ void fragment() {
 
     // prélève l’arrière-plan
     vec4 refracted = texture(SCREEN_TEXTURE, SCREEN_UV + offset);
-    // applique ta couleur de rect (teinte + alpha)
-    COLOR = vec4(refracted.rgb * rect_color.rgb,
-                 refracted.a   * rect_color.a);
+
+    float foam_px = 15.0;
+    float foam_thickness = SCREEN_PIXEL_SIZE.y * foam_px;
+    float foam_blend = smoothstep(1.0 - foam_thickness, 1.0, UV.y);
+    vec3 foam_color = vec3(1.0);
+
+    // mélange la mousse avec la couleur réfractée
+    vec3 final_rgb = mix(refracted.rgb * rect_color.rgb, foam_color, foam_blend);
+
+    COLOR = vec4(final_rgb, refracted.a * rect_color.a);
 }
