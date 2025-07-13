@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ceg3kwcsopb8p"]
+[gd_scene load_steps=11 format=3 uid="uid://ceg3kwcsopb8p"]
 
 [ext_resource type="Script" uid="uid://dwa3sab0sc3yc" path="res://wheel/wheel.gd" id="1_e0ure"]
 [ext_resource type="Texture2D" uid="uid://b0ymin8v8lj6x" path="res://wheel/93.svg" id="2_gwn81"]
@@ -22,11 +22,17 @@ gravity = Vector3(0, 98, 0)
 scale_min = 0.2
 scale_curve = SubResource("CurveTexture_4bsp4")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_djrm3"]
+radius = 300.0
+
 [node name="Wheel" type="Area2D"]
+rotation = 3.60266
 collision_layer = 2
 collision_mask = 12
 script = ExtResource("1_e0ure")
 possible_wheels = Array[CompressedTexture2D]([ExtResource("2_gwn81"), ExtResource("3_3mgug"), ExtResource("4_fqxq6"), ExtResource("5_w0tbm")])
+speed = 2.0
+ray = 300.0
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 visible = false
@@ -43,5 +49,6 @@ process_material = SubResource("ParticleProcessMaterial_3j83c")
 [node name="WheelMesh" type="Node2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_djrm3")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

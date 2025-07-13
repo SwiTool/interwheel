@@ -1,3 +1,5 @@
+@tool
+
 extends Area2D
 
 signal request_focus(target)
@@ -20,10 +22,22 @@ const MINE_SPACE = 36
 var texture
 var angle := 0.0
 @export var speed := 1.0
-@export var ray := 200.0
+@export var ray := 200.0:
+	set(value):
+		ray = value
+		if get_node_or_null('CollisionShape2D') && $CollisionShape2D.shape:
+			$CollisionShape2D.shape.radius = ray
+		if texture:
+			var sprite_size = texture.get_size()
+			var scale_factor = ray * 2 / sprite_size.x
+			$WheelMesh/Mesh.mesh.size = sprite_size * scale_factor
+		queue_redraw()
+
 var wheel: MeshInstance2D
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		queue_redraw()
 	if possible_wheels.size() > 0:
 		texture = possible_wheels[randi() % possible_wheels.size()]
 	else:
@@ -31,14 +45,6 @@ func _ready() -> void:
 	$CollisionShape2D.shape = CircleShape2D.new()
 	$CollisionShape2D.shape.radius = ray
 	wheel = spawn_wheel()
-	
-func set_ray(_ray: float):
-	ray = _ray
-	
-	var sprite_size = texture.get_size()
-	var scale_factor = ray * 2 / sprite_size.x
-
-	$WheelMesh/Mesh.mesh.size = sprite_size * scale_factor
 
 func spawn_wheel() -> MeshInstance2D:
 	var sprite_size = texture.get_size()
@@ -55,7 +61,6 @@ func spawn_wheel() -> MeshInstance2D:
 	return mi
 
 func _process(_delta: float) -> void:
-	$CollisionShape2D.shape.radius = ray
 	pass
 
 func _physics_process(delta):

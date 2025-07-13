@@ -110,7 +110,7 @@ func initWheels() -> void:
 			for tr1 in 30:
 				flBreak = true
 
-				nw.set_ray(randf_range(nw.RAY_MIN + 50, nw.RAY_MAX - nw.RAY_MIN))
+				nw.ray = randf_range(nw.RAY_MIN + 50, nw.RAY_MAX - nw.RAY_MIN)
 				nw.speed = randf_range(nw.SPEED_MIN, nw.SPEED_MAX - nw.SPEED_MIN)
 				var m = SIDE + SPACE + nw.ray
 				nw.position.x = m + mcw - (2 * m)
