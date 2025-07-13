@@ -19,8 +19,8 @@ const MINE_SPACE = 36
 @export var possible_wheels: Array[CompressedTexture2D]
 var texture
 var angle := 0.0
-var speed := 0.0
-var ray
+@export var speed := 1.0
+@export var ray := 200.0
 var wheel: MeshInstance2D
 
 func _ready() -> void:
@@ -78,7 +78,7 @@ func addMine():
 		pass
 	
 	var mineAngle := 0.0
-	for tr in 20:
+	for tr1 in 20:
 		var flBreak = true
 		mineAngle = randf() * TAU
 		for i in minesCount:
@@ -87,7 +87,7 @@ func addMine():
 			if da * ray < MINE_SPACE:
 				flBreak = false
 				break;
-		if tr >= 19:
+		if tr1 >= 19:
 			pass
 		if flBreak:
 			break;

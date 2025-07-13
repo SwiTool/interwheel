@@ -26,7 +26,7 @@ func set_depth(depth):
 		depth_tween = create_tween()
 		depth_tween.tween_property(self, "depth_displayed", max_depth, 0.3).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 
-func _process(delta):
+func _process(_delta):
 	$HBoxContainer/ColorRect/Score.text = str(round(score_displayed))
 	$Depth.text = str(round(depth_displayed)) + 'm'
 	

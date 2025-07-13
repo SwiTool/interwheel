@@ -1,16 +1,42 @@
-[gd_scene load_steps=6 format=3 uid="uid://ceg3kwcsopb8p"]
+[gd_scene load_steps=10 format=3 uid="uid://ceg3kwcsopb8p"]
 
 [ext_resource type="Script" uid="uid://dwa3sab0sc3yc" path="res://wheel/wheel.gd" id="1_e0ure"]
 [ext_resource type="Texture2D" uid="uid://b0ymin8v8lj6x" path="res://wheel/93.svg" id="2_gwn81"]
 [ext_resource type="Texture2D" uid="uid://btvxbhl7b3s6" path="res://wheel/94.svg" id="3_3mgug"]
 [ext_resource type="Texture2D" uid="uid://ckjp13ag17ufv" path="res://wheel/95.svg" id="4_fqxq6"]
 [ext_resource type="Texture2D" uid="uid://ccc76yyth27ls" path="res://wheel/96.svg" id="5_w0tbm"]
+[ext_resource type="Texture2D" uid="uid://b2rfxc4f7b01k" path="res://wheel/dust.svg" id="6_djrm3"]
+
+[sub_resource type="Curve" id="Curve_6juu6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.572848, 0.738823), -0.969853, -0.969853, 0, 0, Vector2(1, 0), -2.24597, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_4bsp4"]
+curve = SubResource("Curve_6juu6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3j83c"]
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 250.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.2
+scale_curve = SubResource("CurveTexture_4bsp4")
 
 [node name="Wheel" type="Area2D"]
 collision_layer = 2
 collision_mask = 12
 script = ExtResource("1_e0ure")
 possible_wheels = Array[CompressedTexture2D]([ExtResource("2_gwn81"), ExtResource("3_3mgug"), ExtResource("4_fqxq6"), ExtResource("5_w0tbm")])
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+visible = false
+amount = 20
+texture = ExtResource("6_djrm3")
+lifetime = 2.68
+preprocess = 0.14
+speed_scale = 0.7
+explosiveness = 0.09
+process_material = SubResource("ParticleProcessMaterial_3j83c")
 
 [node name="MinesList" type="Node2D" parent="."]
 

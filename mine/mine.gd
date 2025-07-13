@@ -7,8 +7,8 @@ func _on_body_entered(body: Node2D) -> void:
 		# body.position = position
 		var world_pos = global_position
 		var cs = get_tree().current_scene
-		get_parent().remove_child(self)
-		cs.add_child(self)
+		get_parent().call_deferred('remove_child', self)
+		cs.call_deferred('add_child', self)
 
 		global_position = world_pos
 		explode_and_die()
@@ -18,4 +18,4 @@ func _on_body_entered(body: Node2D) -> void:
 func explode_and_die() -> void:
 	$AnimatedSprite2D.play("explosion")
 	await $AnimatedSprite2D.animation_finished
-	queue_free()
+	call_deferred("queue_free")

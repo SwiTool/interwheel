@@ -49,4 +49,3 @@ mesh = SubResource("QuadMesh_dcmoc")
 [connection signal="body_entered" from="TopArea" to="." method="_on_top_area_body_entered"]
 [connection signal="body_exited" from="TopArea" to="." method="_on_top_area_body_exited"]
 [connection signal="body_entered" from="BottomArea" to="." method="_on_bottom_area_body_entered"]
-[connection signal="body_exited" from="BottomArea" to="." method="_on_bottom_area_body_exited"]

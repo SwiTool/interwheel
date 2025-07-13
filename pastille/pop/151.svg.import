@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4aufy8244k5f"
-path="res://.godot/imported/142.svg-f4c25de11e1d7afa16dbebf0a97d2134.ctex"
+uid="uid://bqu70hb0j7opo"
+path="res://.godot/imported/151.svg-d0d0e4eff3f94d29842e28dbd3a2bad9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pastille/142.svg"
-dest_files=["res://.godot/imported/142.svg-f4c25de11e1d7afa16dbebf0a97d2134.ctex"]
+source_file="res://pastille/pop/151.svg"
+dest_files=["res://.godot/imported/151.svg-d0d0e4eff3f94d29842e28dbd3a2bad9.ctex"]
 
 [params]
 

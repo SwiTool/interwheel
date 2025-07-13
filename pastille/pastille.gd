@@ -36,6 +36,7 @@ func _physics_process(delta: float) -> void:
 func _on_outer_area_area_entered(area: Area2D) -> void:
 	if area.name == 'MagnetArea':
 		magnetized_by = area
+		$GPUParticles2D.emitting = true
 
 func destroy():
 	$AnimatedSprite2D.visible = true

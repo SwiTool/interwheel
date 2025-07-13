@@ -149,7 +149,7 @@ func initPastilles():
 func _on_player_death() -> void:
 	end_game()
 
-func _on_camera_bounds_body_entered(body: Node2D) -> void:
+func _on_camera_bounds_body_entered(_body: Node2D) -> void:
 	var shape := $CameraBounds/CollisionShape2D.shape as RectangleShape2D
 	var shape_size := shape.size
 	var shape_pos = $CameraBounds/CollisionShape2D.global_position
