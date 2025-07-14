@@ -20,10 +20,22 @@ var is_end = true
 var wheels = []
 
 func _ready() -> void:
-	Engine.time_scale = 1.0
-	$Player.connect("request_focus", Callable(self, "_on_request_focus"))
 	mcw = get_viewport().get_visible_rect().size.x
 	mch = get_viewport().get_visible_rect().size.y
+	$Player.connect("request_focus", Callable(self, "_on_request_focus"))
+	
+func remove_child_nodes(node: Node2D):
+	for n in node.get_children():
+		node.remove_child(n)
+		n.queue_free() 
+
+func new_game():
+	wheels = []
+	$Player.reset()
+	$Water.reset()
+	remove_child_nodes($Pastilles)
+	remove_child_nodes($Wheels)
+	Engine.time_scale = 1.0
 	initWheels()
 	initPastilles()
 	for wheel in get_tree().get_nodes_in_group("wheels"):
@@ -45,15 +57,8 @@ func add_score(points: int):
 	$HUD.add_score(points)
 
 func end_game():
-	var timer := 0.0
-	var start_scale := Engine.time_scale
-
-	while timer < 1.0:
-		var t := timer / 1.0
-		Engine.time_scale = lerp(start_scale, 0.0, t)
-		await get_tree().process_frame
-		timer += get_process_delta_time()
-	Engine.time_scale = 0.0
+	$GameOver.set_score($HUD.score)
+	$GameOver.fade_in(2.0)
 
 func spawn_wheel(x: int, y: int, ray: float, speed: float) -> Node2D:
 	var ow = wheel_scene.instantiate()
@@ -160,3 +165,8 @@ func _on_camera_bounds_body_entered(_body: Node2D) -> void:
 	$Camera2D.limit_right = int(shape_pos.x + half_size.x)
 	$Camera2D.limit_top = int(shape_pos.y - half_size.y)
 	$Camera2D.limit_bottom = int(shape_pos.y + half_size.y)
+
+
+func _on_game_over_play_again() -> void:
+	$GameOver.fade_out(0.2)
+	new_game()

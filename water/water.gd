@@ -3,11 +3,15 @@ extends Node2D
 @export var water_timer := 0
 @export var water_speed := 30.0
 @export var water_speed_increment := 1.5
+@export var start_position := 1500.0
 var water_boost: float = 0.0
 
 func _ready() -> void:
-	position.y = 1500
-	#position.y = 100
+	reset()
+	
+func reset():
+	position.y = start_position
+	water_boost = 0.0
 
 func _physics_process(delta: float) -> void:
 	water_boost += water_speed_increment * delta

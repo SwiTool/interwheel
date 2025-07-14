@@ -27,9 +27,13 @@ var is_dead := false
 
 var pastilles_eaten := 0
 
+func reset():
+	current_wheel = null
+	wet = 0
+	in_water = false
+	is_dead = false
+
 func _physics_process(delta):
-	if is_dead:
-		return
 	if mass > 0:
 		velocity.y += mass * delta * get_gravity().y
 	if friction > 0:
@@ -48,6 +52,10 @@ func _physics_process(delta):
 	
 
 	if state == STATES.GRAB:
+		var a = (current_wheel.rotation - wa) + PI / 2
+		position.x = current_wheel.position.x + cos(a) * current_wheel.ray;
+		position.y = current_wheel.position.y + sin(a) * current_wheel.ray;
+		rotation = a
 		if Input.is_action_just_pressed('jump'):
 			jump(rotation)
 	elif state == STATES.FLY:
@@ -63,6 +71,8 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed('jump'):
 			var sens = 1 if (position.x < get_viewport().get_visible_rect().size.x / 2) else -1
 			jump(-PI / 2 + JUMP_SIDE_ANGLE * sens)
+	elif state == STATES.DEATH:
+		wet -= 0.2 * delta
 
 	var collision_info = move_and_collide(velocity * delta, false, 0.08, true)
 	if collision_info:
@@ -77,14 +87,11 @@ func _physics_process(delta):
 		else:
 			print(collision_info.get_collider().name)
 
-func _process(delta):
+func _process(_delta):
 	$WaterParticles.emitting = in_water
 	$WaterParticles.amount_ratio = clampf(0.2 + wet, 0, 1)
 	if state == STATES.GRAB:
-		var a = (current_wheel.rotation - wa) + PI / 2
-		position.x = current_wheel.position.x + cos(a) * current_wheel.ray;
-		position.y = current_wheel.position.y + sin(a) * current_wheel.ray;
-		rotation = a
+		pass
 	elif state == STATES.FLY:
 		$FlyParticles.emitting = true
 		var speed = velocity.length()
@@ -94,8 +101,6 @@ func _process(delta):
 	elif state == STATES.WALL_SLIDE:
 		$AnimationPlayer.play('Falling')
 		$AnimationPlayer.seek(clamp(velocity.length() / 1000, 0.0, 1.0))
-	elif state == STATES.DEATH:
-		wet -= 0.2 * delta
 
 func set_state(new_state: STATES) -> void:
 	match state:

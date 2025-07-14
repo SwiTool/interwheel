@@ -15,9 +15,13 @@ func _process(_delta):
 
 func _on_start_game() -> void:
 	game = game_scene.instantiate()
-	$Start.queue_free()
+	game.connect('ready', Callable(self, 'game_ready'))
 	game.connect('game_initialized', Callable(self, '_on_game_initialized'))
 	add_child(game)
+
+func game_ready():
+	game.new_game()
+	$Start.queue_free()
 
 func _on_game_initialized() -> void:
 	print('game initialized')

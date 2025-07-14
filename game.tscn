@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://c2q6ro4o1qg2f"]
+[gd_scene load_steps=19 format=4 uid="uid://c2q6ro4o1qg2f"]
 
 [ext_resource type="Texture2D" uid="uid://dj378aiuon4vi" path="res://atlas_bg.png" id="1_eow3j"]
 [ext_resource type="Script" uid="uid://citobk71ik4oo" path="res://game.gd" id="1_j5wjh"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://do1m1xdj1ppot" path="res://camera.gd" id="5_mfdv2"]
 [ext_resource type="PackedScene" uid="uid://bk75x265ktjwr" path="res://hud.tscn" id="6_iotsf"]
 [ext_resource type="PackedScene" uid="uid://cwtdwnfixk5vk" path="res://player/player.tscn" id="7_lc2xo"]
+[ext_resource type="PackedScene" uid="uid://dfe20vfbfncux" path="res://game_over.tscn" id="9_mfdv2"]
 [ext_resource type="PackedScene" uid="uid://boi2lbuq28pod" path="res://water/water.tscn" id="9_vef74"]
 [ext_resource type="Script" uid="uid://dndl8s5hlpp87" path="res://debug_rtl.gd" id="10_hve3p"]
 [ext_resource type="FontFile" uid="uid://nfp2byltpbhr" path="res://fonts/Itim-Regular.ttf" id="10_mfdv2"]
@@ -115,10 +116,12 @@ up_direction = Vector2(0, 1)
 [node name="Wheels" type="Node2D" parent="."]
 
 [node name="Water" parent="." instance=ExtResource("9_vef74")]
-visible = false
 position = Vector2(0, -1500)
 
 [node name="HUD" parent="." instance=ExtResource("6_iotsf")]
+
+[node name="GameOver" parent="." instance=ExtResource("9_mfdv2")]
+visible = false
 
 [node name="DebugHUD" type="CanvasLayer" parent="."]
 
@@ -139,7 +142,6 @@ script = ExtResource("10_hve3p")
 player_path = NodePath("../../Player")
 
 [node name="CameraBounds" type="Area2D" parent="."]
-visible = false
 collision_layer = 64
 collision_mask = 8
 
@@ -148,4 +150,5 @@ position = Vector2(750, -17866.5)
 shape = SubResource("RectangleShape2D_vef74")
 
 [connection signal="death" from="Player" to="." method="_on_player_death"]
+[connection signal="play_again" from="GameOver" to="." method="_on_game_over_play_again"]
 [connection signal="body_entered" from="CameraBounds" to="." method="_on_camera_bounds_body_entered"]

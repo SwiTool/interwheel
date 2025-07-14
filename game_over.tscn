@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfe20vfbfncux"]
+
+[ext_resource type="Script" uid="uid://ch36n4ryp7yr7" path="res://game_over.gd" id="1_y26ei"]
+[ext_resource type="Theme" uid="uid://dqrf683k4j31m" path="res://ui/theme.tres" id="2_8u835"]
+[ext_resource type="StyleBox" uid="uid://b8pa8cypeui7q" path="res://ui/style_window.tres" id="3_ftari"]
+[ext_resource type="LabelSettings" uid="uid://xkvgksg7bl4x" path="res://ui/label_primary.tres" id="4_28vn7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8u835"]
+bg_color = Color(0.890196, 0.890196, 0.890196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k2vha"]
+bg_color = Color(0.843137, 0.843137, 0.843137, 1)
+
+[node name="GameOver" type="CanvasLayer"]
+script = ExtResource("1_y26ei")
+
+[node name="PanelContainer3" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_8u835")
+theme_override_styles/panel = SubResource("StyleBoxFlat_8u835")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer3"]
+custom_minimum_size = Vector2(0, 750)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer3/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme = ExtResource("2_8u835")
+theme_override_styles/panel = ExtResource("3_ftari")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer3/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="PanelContainer3/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Votre score"
+label_settings = ExtResource("4_28vn7")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Score" type="Label" parent="PanelContainer3/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "45 110"
+label_settings = ExtResource("4_28vn7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer3/VBoxContainer"]
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_styles/panel = SubResource("StyleBoxFlat_k2vha")
+
+[node name="Button" type="Button" parent="PanelContainer3/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme = ExtResource("2_8u835")
+text = "REJOUER"
+flat = true
+
+[connection signal="pressed" from="PanelContainer3/VBoxContainer/PanelContainer2/Button" to="." method="_on_play_again_pressed"]
