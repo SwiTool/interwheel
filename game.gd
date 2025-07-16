@@ -51,13 +51,9 @@ func _on_request_focus(target: Node2D, offset: float) -> void:
 		$Camera2D.camera_offset_target = Vector2(0, offset)
 
 func _process(_delta):
-	$HUD.set_depth(abs(int($Player.position.y / 20)))
-	
-func add_score(points: int):
-	$HUD.add_score(points)
+	GameState.set_depth(abs(int($Player.position.y / 20)))
 
 func end_game():
-	$GameOver.set_score($HUD.score)
 	$GameOver.fade_in(2.0)
 
 func spawn_wheel(x: int, y: int, ray: float, speed: float) -> Node2D:

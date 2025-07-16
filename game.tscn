@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://c2q6ro4o1qg2f"]
+[gd_scene load_steps=17 format=4 uid="uid://c2q6ro4o1qg2f"]
 
 [ext_resource type="Texture2D" uid="uid://dj378aiuon4vi" path="res://atlas_bg.png" id="1_eow3j"]
 [ext_resource type="Script" uid="uid://citobk71ik4oo" path="res://game.gd" id="1_j5wjh"]
@@ -9,8 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://cwtdwnfixk5vk" path="res://player/player.tscn" id="7_lc2xo"]
 [ext_resource type="PackedScene" uid="uid://dfe20vfbfncux" path="res://game_over.tscn" id="9_mfdv2"]
 [ext_resource type="PackedScene" uid="uid://boi2lbuq28pod" path="res://water/water.tscn" id="9_vef74"]
-[ext_resource type="Script" uid="uid://dndl8s5hlpp87" path="res://debug_rtl.gd" id="10_hve3p"]
-[ext_resource type="FontFile" uid="uid://nfp2byltpbhr" path="res://fonts/Itim-Regular.ttf" id="10_mfdv2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_215e1"]
 texture = ExtResource("1_eow3j")
@@ -122,24 +120,6 @@ position = Vector2(0, -1500)
 
 [node name="GameOver" parent="." instance=ExtResource("9_mfdv2")]
 visible = false
-
-[node name="DebugHUD" type="CanvasLayer" parent="."]
-
-[node name="RichTextLabel" type="RichTextLabel" parent="DebugHUD"]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -400.0
-offset_top = 100.0
-offset_bottom = 500.0
-grow_horizontal = 0
-theme_override_fonts/normal_font = ExtResource("10_mfdv2")
-theme_override_font_sizes/normal_font_size = 40
-text = "Test
-"
-script = ExtResource("10_hve3p")
-player_path = NodePath("../../Player")
 
 [node name="CameraBounds" type="Area2D" parent="."]
 collision_layer = 64

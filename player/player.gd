@@ -148,12 +148,11 @@ func set_state(new_state: STATES) -> void:
 		emit_signal('request_focus', self, 0)
 
 func jump(a):
-	# Cs.game.stats.$jp++
+	GameState.jump_count += 1
 	velocity.x = cos(a) * jump_force
 	velocity.y = sin(a) * jump_force			
 	set_state(STATES.FLY)
 	current_wheel = null;
 
 func pastille_hit(pastille: PointToken):
-	pastilles_eaten += 1
-	get_parent().add_score(pastille.points)
+	GameState.pastille_eaten(pastille)

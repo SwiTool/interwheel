@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfe20vfbfncux"]
+[gd_scene load_steps=8 format=3 uid="uid://dfe20vfbfncux"]
 
 [ext_resource type="Script" uid="uid://ch36n4ryp7yr7" path="res://game_over.gd" id="1_y26ei"]
 [ext_resource type="Theme" uid="uid://dqrf683k4j31m" path="res://ui/theme.tres" id="2_8u835"]
 [ext_resource type="StyleBox" uid="uid://b8pa8cypeui7q" path="res://ui/style_window.tres" id="3_ftari"]
 [ext_resource type="LabelSettings" uid="uid://xkvgksg7bl4x" path="res://ui/label_primary.tres" id="4_28vn7"]
+[ext_resource type="LabelSettings" uid="uid://c5q8yye5eykev" path="res://ui/label_text.tres" id="5_ftari"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8u835"]
 bg_color = Color(0.890196, 0.890196, 0.890196, 1)
@@ -48,6 +49,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
+[node name="Depth" type="Label" parent="PanelContainer3/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "3000m"
+label_settings = ExtResource("4_28vn7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Score" type="Label" parent="PanelContainer3/VBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
@@ -68,5 +77,66 @@ layout_mode = 2
 theme = ExtResource("2_8u835")
 text = "REJOUER"
 flat = true
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.5
+columns = 2
+
+[node name="Label" type="Label" parent="PanelContainer3/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+text = "Pastilles mangées :"
+label_settings = ExtResource("5_ftari")
+vertical_alignment = 1
+
+[node name="PastillesCount" type="Label" parent="PanelContainer3/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+text = "250: 0
+1000: 0
+5000: 0"
+label_settings = ExtResource("5_ftari")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="PanelContainer3/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+text = "Nombre de sauts :"
+label_settings = ExtResource("5_ftari")
+vertical_alignment = 1
+
+[node name="JumpCount" type="Label" parent="PanelContainer3/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+text = "0"
+label_settings = ExtResource("5_ftari")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label5" type="Label" parent="PanelContainer3/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+text = "Nombre de plongeons : "
+label_settings = ExtResource("5_ftari")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlungeCount" type="Label" parent="PanelContainer3/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+text = "0"
+label_settings = ExtResource("5_ftari")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="PanelContainer3/VBoxContainer/PanelContainer2/Button" to="." method="_on_play_again_pressed"]

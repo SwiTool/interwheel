@@ -4,10 +4,16 @@ signal play_again
 
 var tween: Tween
 
-func set_score(score: int):
-	$PanelContainer3/VBoxContainer/PanelContainer/VBoxContainer/Score.text = format_number_with_spaces(score)
-
 func fade_in(duration := 1.0):
+	$PanelContainer3/VBoxContainer/PanelContainer/VBoxContainer/Score.text = "%s pts" % format_number_with_spaces(GameState.score)
+	$PanelContainer3/VBoxContainer/PanelContainer/VBoxContainer/Depth.text = "%sm" % format_number_with_spaces(GameState.max_depth)
+	$PanelContainer3/VBoxContainer/GridContainer/JumpCount.text = format_number_with_spaces(GameState.jump_count)
+	$PanelContainer3/VBoxContainer/GridContainer/PlungeCount.text = format_number_with_spaces(GameState.plunge_count)
+	$PanelContainer3/VBoxContainer/GridContainer/PastillesCount.text = ""
+	for points in GameState.pastilles_eaten_count:
+		var count = GameState.pastilles_eaten_count[points]
+		if count > 0:
+			$PanelContainer3/VBoxContainer/GridContainer/PastillesCount.text += "\n%s x %s" % [format_number_with_spaces(points), format_number_with_spaces(count)]
 	$PanelContainer3.modulate.a = 0.0
 	if tween:
 		tween.kill()
@@ -30,6 +36,7 @@ func fade_out(duration := 1.0):
 
 
 func _on_play_again_pressed() -> void:
+	GameState.reset()
 	emit_signal('play_again')
 
 func format_number_with_spaces(n: int) -> String:
