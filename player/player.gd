@@ -59,7 +59,7 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed('jump'):
 			jump(rotation)
 	elif state == STATES.FLY:
-		if OS.is_debug_build() &&  Input.is_action_just_pressed('jump'):
+		if OS.is_debug_build() && Input.is_action_just_pressed('jump'):
 			velocity.y = -jump_force
 		pass
 	elif state == STATES.GROUNDED:

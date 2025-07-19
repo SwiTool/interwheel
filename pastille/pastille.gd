@@ -11,7 +11,7 @@ var ray = 25
 
 func _ready() -> void:
 	for p in pastilles:
-		var rnd = randf()
+		var rnd = GameState.rng.randf()
 		if rnd <= p.probability:
 			pastille = p	
 			

@@ -11,6 +11,12 @@ var jump_count: int = 0
 var pastilles_eaten_count: Dictionary = {}
 var plunge_count: int = 0
 
+var rng = RandomNumberGenerator.new()
+
+func _ready():
+	if OS.is_debug_build():
+		rng.seed = 123
+
 func reset():
 	score = 0
 	depth = 0
@@ -19,11 +25,11 @@ func reset():
 	plunge_count = 0
 	max_depth = 0
 
-func set_depth(depth: int):
-	if (depth > max_depth):
-		max_depth = depth
-		var dif = depth - self.depth
-		self.depth = depth
+func set_depth(_depth: int):
+	if (_depth > max_depth):
+		max_depth = _depth
+		var dif = _depth - depth
+		depth = _depth
 		emit_signal("depth_changed", depth)
 		add_score(dif * 5)
 

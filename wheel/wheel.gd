@@ -6,17 +6,7 @@ signal request_focus(target)
 
 const mine_scene = preload("res://mine/mine.tscn")
 
-const RAY_MIN = 60
-const RAY_MAX  = 250
-const RAY_RANDOM = 50
-
-const SPEED_MIN = 2
-const SPEED_MAX = 10
-const SPEED_RANDOM = 0.025
-
-
 const MINE_SPACE = 36
-
 
 @export var possible_wheels: Array[CompressedTexture2D]
 var texture
@@ -39,7 +29,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		queue_redraw()
 	if possible_wheels.size() > 0:
-		texture = possible_wheels[randi() % possible_wheels.size()]
+		texture = possible_wheels[GameState.rng.randi() % possible_wheels.size()]
 	else:
 		push_error("No wheels available to set texture.")
 	$CollisionShape2D.shape = CircleShape2D.new()
@@ -85,11 +75,11 @@ func addMine():
 	var mineAngle := 0.0
 	for tr1 in 20:
 		var flBreak = true
-		mineAngle = randf() * TAU
+		mineAngle = GameState.rng.randf_range(0, TAU)
 		for i in minesCount:
-			var mine = $MinesList.get_child(i)
-			var da = abs(wrapf(mine.angle, -PI, PI))
-			if da * ray < MINE_SPACE:
+			#var mine = $MinesList.get_child(i)
+			#var da = abs(wrapf(mine.angle, -PI, PI))
+			if mineAngle * ray < MINE_SPACE:
 				flBreak = false
 				break;
 		if tr1 >= 19:

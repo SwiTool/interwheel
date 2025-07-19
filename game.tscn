@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://c2q6ro4o1qg2f"]
+[gd_scene load_steps=18 format=4 uid="uid://c2q6ro4o1qg2f"]
 
 [ext_resource type="Texture2D" uid="uid://dj378aiuon4vi" path="res://atlas_bg.png" id="1_eow3j"]
 [ext_resource type="Script" uid="uid://citobk71ik4oo" path="res://game.gd" id="1_j5wjh"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cwtdwnfixk5vk" path="res://player/player.tscn" id="7_lc2xo"]
 [ext_resource type="PackedScene" uid="uid://dfe20vfbfncux" path="res://game_over.tscn" id="9_mfdv2"]
 [ext_resource type="PackedScene" uid="uid://boi2lbuq28pod" path="res://water/water.tscn" id="9_vef74"]
+[ext_resource type="PackedScene" uid="uid://dnhg6v84e6210" path="res://loading_screen.tscn" id="10_hve3p"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_215e1"]
 texture = ExtResource("1_eow3j")
@@ -53,7 +54,7 @@ texture_region_size = Vector2i(80, 200)
 [sub_resource type="TileSet" id="TileSet_e8heu"]
 tile_size = Vector2i(80, 200)
 physics_layer_0/collision_layer = 1
-physics_layer_0/collision_mask = 13
+physics_layer_0/collision_mask = 0
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Walls left"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
@@ -120,6 +121,8 @@ position = Vector2(0, -1500)
 
 [node name="GameOver" parent="." instance=ExtResource("9_mfdv2")]
 visible = false
+
+[node name="LoadingScreen" parent="." instance=ExtResource("10_hve3p")]
 
 [node name="CameraBounds" type="Area2D" parent="."]
 collision_layer = 64

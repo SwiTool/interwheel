@@ -8,4 +8,7 @@ func _ready():
 
 
 func _process(_delta: float) -> void:
-	global_position = current_target.global_position + camera_offset_target
+	if current_target:
+		global_position = current_target.global_position + camera_offset_target
+	else:
+		global_position = Vector2.ZERO

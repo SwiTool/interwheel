@@ -2,12 +2,10 @@
 
 [ext_resource type="Script" uid="uid://ch36n4ryp7yr7" path="res://game_over.gd" id="1_y26ei"]
 [ext_resource type="Theme" uid="uid://dqrf683k4j31m" path="res://ui/theme.tres" id="2_8u835"]
+[ext_resource type="StyleBox" uid="uid://kdyv47g7owuf" path="res://ui/panel_back.tres" id="3_28vn7"]
 [ext_resource type="StyleBox" uid="uid://b8pa8cypeui7q" path="res://ui/style_window.tres" id="3_ftari"]
 [ext_resource type="LabelSettings" uid="uid://xkvgksg7bl4x" path="res://ui/label_primary.tres" id="4_28vn7"]
 [ext_resource type="LabelSettings" uid="uid://c5q8yye5eykev" path="res://ui/label_text.tres" id="5_ftari"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8u835"]
-bg_color = Color(0.890196, 0.890196, 0.890196, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k2vha"]
 bg_color = Color(0.843137, 0.843137, 0.843137, 1)
@@ -22,7 +20,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_8u835")
-theme_override_styles/panel = SubResource("StyleBoxFlat_8u835")
+theme_override_styles/panel = ExtResource("3_28vn7")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer3"]
 custom_minimum_size = Vector2(0, 750)
