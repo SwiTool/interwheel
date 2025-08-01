@@ -40,18 +40,18 @@ static func place_between(context: Node2D, w1: Node2D, w2: Node2D, ray: float) -
 	return Vector2.ZERO
 
 # Unused but may be useful
-static func random_point_in_donut(context: Node2D, from: Node2D, wheel_ray: float, margin: float, ray: float) -> Vector2:
-	var r_min = wheel_ray
-	var r_max = wheel_ray + margin
-	for _i in 30:
-		var angle = GameState.rng.randf_range(0, TAU)
-		var r = sqrt(GameState.rng.randf_range(r_min * r_min, r_max * r_max))
-		if is_position_clear(context, from, Vector2(cos(angle), sin(angle)) * r, r_min):
-			# Ensure the point is at least r_min away from the center
-			if r >= r_min:
-				return Vector2(cos(angle), sin(angle)) * r
-		print('r-min: ', r_min, ' r_max: ', r_max, ' r: ', r, ' -- ', r >= r_min)
-	return Vector2.ZERO
+#static func random_point_in_donut(context: Node2D, from: Node2D, wheel_ray: float, margin: float, ray: float) -> Vector2:
+#	var r_min = wheel_ray
+#	var r_max = wheel_ray + margin
+#	for _i in 30:
+#		var angle = GameState.rng.randf_range(0, TAU)
+#		var r = sqrt(GameState.rng.randf_range(r_min * r_min, r_max * r_max))
+#		if is_position_clear(context, from, Vector2(cos(angle), sin(angle)) * r, r_min):
+#			# Ensure the point is at least r_min away from the center
+#			if r >= r_min:
+#				return Vector2(cos(angle), sin(angle)) * r
+#		print('r-min: ', r_min, ' r_max: ', r_max, ' r: ', r, ' -- ', r >= r_min)
+#	return Vector2.ZERO
 
 #static func random_point_in_line(context: Node2D, ray: float, pos: Vector2) -> Vector2:
 #	for _i in 30:

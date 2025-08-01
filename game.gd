@@ -1,4 +1,5 @@
 extends Node2D
+class_name Game
 
 signal game_initialized
 
@@ -46,7 +47,7 @@ func new_game():
 	remove_child_nodes($Pastilles)
 	remove_child_nodes($Wheels)
 	Engine.time_scale = 1.0
-	await initWheels()
+	initWheels()
 	initPastilles()
 	for wheel in get_tree().get_nodes_in_group("wheels"):
 		wheel.connect("request_focus", Callable(self, "_on_request_focus"))

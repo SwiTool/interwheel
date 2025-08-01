@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameState="*res://game_state.gd"
+KadokadeoManager="*res://addons/kadokadeo_devkit/core/kadokadeo_manager.gd"
 
 [display]
 
@@ -25,6 +26,10 @@ window/size/viewport_width=1500
 window/size/viewport_height=1500
 window/stretch/mode="canvas_items"
 window/handheld/orientation=1
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/kadokadeo_devkit/plugin.cfg")
 
 [input]
 

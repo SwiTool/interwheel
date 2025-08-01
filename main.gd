@@ -6,6 +6,7 @@ var game: Node
 var start: CanvasLayer
 
 func _ready() -> void:
+	KadokadeoManager.initialize("7")
 	start = start_scene.instantiate()
 	start.connect('start_game', Callable(self, '_on_start_game'))
 	add_child(start)
