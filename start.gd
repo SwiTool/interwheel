@@ -14,16 +14,12 @@ func _ready():
 	KadokadeoManager.connect('run_starting', Callable(self, '_on_run_starting'))
 	KadokadeoManager.connect('run_started', Callable(self, '_on_run_started'))
 	KadokadeoManager.connect('run_error', Callable(self, '_on_run_error'))
-	#var run = await KadokadeoManager.start_game_session()
-	#print("Run: ", run)
+	KadokadeoManager.start_game_session()
 
 func _process(_delta):
 	if Input.is_action_just_pressed('jump'):
 		if can_start:
 			start_game.emit()
-		else:
-			var run = await KadokadeoManager.start_game_session()
-			print("Run: ", run)
 
 func _on_run_starting() -> void:
 	can_start = false

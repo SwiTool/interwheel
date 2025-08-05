@@ -19,7 +19,6 @@ enum RunStatus {
 # Configuration
 var game_id: String = ""
 var server_url: String = "http://kadokadeo.localhost"
-var current_run_id: String = ""
 var run_status: RunStatus = RunStatus.NOT_STARTED:
 	set(value):
 		run_status = value
@@ -35,17 +34,35 @@ var run_status: RunStatus = RunStatus.NOT_STARTED:
 			run_error.emit()
 
 # Composants
-var api_client: ApiClient
+var api_client: ApiClient = ApiClient.new()
+var crypto: KadoCrypto = KadoCrypto.new()
 #var replay_recorder: ReplayRecorder
 #var replay_player: ReplayPlayer
 var loading_screen: Control
 var is_initialized_flag: bool = false
 var run_details: StartRunData
 
+func _init() -> void:
+	if OS.is_debug_build():
+		api_client.auth_token = "5|hVU0kWVbEGf5wShqpZKnQ3DQ66XECQf7XEOwt9cidaf22d85"  # Token de test
+		crypto.set_server_public_key("-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo9up6S3lC/loutVnBN/u
+nbh5MFH6hjsjUAgvHA0ohI/CJr/wlfo0p4BkDRPC9qj8Eirff+vB3xMB7lIBq+Nt
+ij2zvvvKXeUz+2he9mYCE1iU6L0UxflnPhh9wR5YnrVkH9tap9ZV8L2TT2SKma3m
+nrTnTddUFWLON7I1yy9EMLsc3XVwc5nKmnM3qGiHf0PA5wE566CV2jHcyQ20cwip
+jlcFzxFxDRIg47Ffi+XDkr19DKZtGuvDI8WC+8ijsoJMEm5qLK2EK18uhqkYcaCD
+DUjZb/NinYM4bN6tydoyx1vvx03Umq4NOc4/1OwqMA/VSl5xZx9rznN15zxKZOkh
+XQIDAQAB
+-----END PUBLIC KEY-----")
+	else:
+		var kado_obj = JavaScriptBridge.get_interface("Kado")
+		print(kado_obj.token)
+		api_client.auth_token = kado_obj.token
+		crypto.set_server_public_key(kado_obj.public_key)
+
 func _ready():
 	name = "KadokadeoManager"
 	set_process(false)
-	api_client = ApiClient.new()
 	add_child(api_client)
 	
 	# Initialiser les composants
@@ -98,25 +115,32 @@ func end_game_session() -> void:
 		#	replay_recorder.stop_recording()
 			
 		run_status = RunStatus.FINISHING
-		var endpoint = "/api/runs/" + current_run_id
+		var endpoint = "/api/runs/" + run_details.run_id + "/finish"
+		var end_run_request = {
+			'run_id': run_details.run_id,
+			'score': GameState.score,
+			'timestamp': run_details.server_time
+		}
+		var payload = crypto.prepare_payload(JSON.stringify(end_run_request))
 		api_client.post_request(endpoint, {
-			# score, timestamp, ...
+			'payload': payload.payload,
+			'key': payload.key,
+			'sign': payload.sign
 		})
-		current_run_id = ""
 		print("KadokadeoDevKit: Session ended")
 
 # === REPLAY SYSTEM ===
 
-func start_recording() -> void:
-	if not is_initialized_flag:
-		push_error("KadokadeoDevKit: Must initialize before recording")
-		return
+# func start_recording() -> void:
+# 	if not is_initialized_flag:
+# 		push_error("KadokadeoDevKit: Must initialize before recording")
+# 		return
 		
-	if run_status != RunStatus.STARTED:
-		push_warning("KadokadeoDevKit: Starting recording without active session")
+# 	if run_status != RunStatus.STARTED:
+# 		push_warning("KadokadeoDevKit: Starting recording without active session")
 		
-	#replay_recorder.start_recording()
-	print("KadokadeoDevKit: Recording started")
+# 	#replay_recorder.start_recording()
+# 	print("KadokadeoDevKit: Recording started")
 
 #func stop_recording() -> ReplayData:
 #	var replay_data = replay_recorder.stop_recording()
@@ -147,12 +171,5 @@ func start_recording() -> void:
 
 # === PRIVATE METHODS ===
 
-func _on_replay_finished() -> void:
-	replay_finished.emit()
-
-# Méthodes utilitaires pour les développeurs
-func get_current_run_id() -> String:
-	return current_run_id
-
-func _handle_session_error(error: String) -> void:
-	run_status = RunStatus.ERROR
+# func _on_replay_finished() -> void:
+# 	replay_finished.emit()

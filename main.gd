@@ -18,6 +18,7 @@ func _on_start_game() -> void:
 	game = game_scene.instantiate()
 	game.connect('ready', Callable(self, 'game_ready'))
 	game.connect('game_initialized', Callable(self, '_on_game_initialized'))
+	game.connect('game_finished', Callable(self, '_on_game_finished'))
 	add_child(game)
 
 func game_ready():
@@ -26,3 +27,7 @@ func game_ready():
 
 func _on_game_initialized() -> void:
 	print('game initialized')
+
+func _on_game_finished() -> void:
+	print('game finished')
+	KadokadeoManager.end_game_session()

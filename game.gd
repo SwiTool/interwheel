@@ -2,6 +2,7 @@ extends Node2D
 class_name Game
 
 signal game_initialized
+signal game_finished
 
 const SIDE = 80
 const SPACE = 40
@@ -66,6 +67,7 @@ func _process(_delta):
 	GameState.set_depth(abs(int($Player.position.y / 20)))
 
 func end_game():
+	game_finished.emit()
 	$GameOver.fade_in(2.0)
 
 func spawn_wheel(pos: Vector2, ray: float, speed: float) -> Node2D:
