@@ -1,10 +1,8 @@
 extends Node
 
-signal score_changed(new_score: int)
 signal depth_changed(new_depth: int)
 #signal pastille_eaten(points: int)
 
-var score: int = 0
 var depth: int = 0
 var max_depth: int = 0
 var jump_count: int = 0
@@ -18,7 +16,7 @@ func _ready():
 		rng.seed = 123
 
 func reset():
-	score = 0
+	KadokadeoManager.update_score(0)
 	depth = 0
 	jump_count = 0
 	pastilles_eaten_count = {}
@@ -31,11 +29,10 @@ func set_depth(_depth: int):
 		var dif = _depth - depth
 		depth = _depth
 		emit_signal("depth_changed", depth)
-		add_score(dif * 5)
+		add_score((dif * 5) / 0.6)
 
 func add_score(value: int):
-	score += value
-	emit_signal("score_changed", score)
+	KadokadeoManager.update_score(KadokadeoManager.score + value)
 
 func pastille_eaten(pastille: PointToken):
 	if not pastilles_eaten_count.has(pastille.points):

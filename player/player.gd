@@ -11,9 +11,9 @@ enum STATES {
 	DEATH,
 }
 
-@export var ground_speed := 400.0
-@export var weight = 3.5
-@export var jump_force = 1800
+@export var ground_speed := 240.0
+@export var weight = 2
+@export var jump_force = 1080
 const JUMP_SIDE_ANGLE = PI / 4
 
 var current_wheel: Node2D

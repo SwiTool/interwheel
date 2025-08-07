@@ -61,7 +61,7 @@ scale_curve = SubResource("CurveTexture_tur08")
 radius = 25.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gmae4"]
-radius = 100.0
+radius = 60.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rq1sk"]
 animations = [{

@@ -7,6 +7,8 @@ signal run_finished()
 signal run_error()
 signal replay_finished()
 
+signal contract_updated(contract_points: float, contract_score: int, completion_percent: float)
+
 enum RunStatus {
 	NOT_STARTED,
 	STARTING,
@@ -41,6 +43,7 @@ var crypto: KadoCrypto = KadoCrypto.new()
 var loading_screen: Control
 var is_initialized_flag: bool = false
 var run_details: StartRunData
+var score := 0
 
 func _init() -> void:
 	if OS.is_debug_build():
@@ -102,9 +105,10 @@ func start_game_session() -> void:
 	# Appel API pour démarrer la session
 	var response = await api_client.post_request("/api/runs/games/" + game_id, {})
 	if response.success:
-		print(response.data)
+		# print(response.data)
 		run_details = StartRunData.new(response.data)
 		run_status = RunStatus.STARTED
+		score = 0
 	else:
 		run_status = RunStatus.ERROR
 
@@ -118,7 +122,7 @@ func end_game_session() -> void:
 		var endpoint = "/api/runs/" + run_details.run_id + "/finish"
 		var end_run_request = {
 			'run_id': run_details.run_id,
-			'score': GameState.score,
+			'score': score,
 			'timestamp': run_details.server_time
 		}
 		var payload = crypto.prepare_payload(JSON.stringify(end_run_request))
@@ -128,6 +132,18 @@ func end_game_session() -> void:
 			'sign': payload.sign
 		})
 		print("KadokadeoDevKit: Session ended")
+
+func update_score(new_score: int) -> void:
+	if not is_initialized_flag:
+		push_error("KadokadeoDevKit: Must initialize before updating score")
+		return
+		
+	if run_status != RunStatus.STARTED:
+		push_warning("KadokadeoDevKit: Updating score without active session")
+		
+	score = new_score
+	var percent = clamp((score as float / run_details.contract_score as float) * 100.0, 0, 100)
+	contract_updated.emit(run_details.contract_points, run_details.contract_score, percent)
 
 # === REPLAY SYSTEM ===
 

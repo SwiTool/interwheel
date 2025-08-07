@@ -22,7 +22,6 @@ func _on_start_game() -> void:
 	add_child(game)
 
 func game_ready():
-	game.new_game()
 	$Start.queue_free()
 
 func _on_game_initialized() -> void:

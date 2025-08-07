@@ -205,8 +205,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onrkg"]
-radius = 18.0
-height = 60.0
+radius = 16.0
+height = 36.0
 
 [sub_resource type="Animation" id="Animation_634y6"]
 resource_name = "Death"
@@ -778,7 +778,7 @@ gravity = Vector3(0, 400, 0)
 scale_curve = SubResource("CurveTexture_237xx")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0b8q"]
-radius = 250.0
+radius = 150.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 8
@@ -788,7 +788,7 @@ metadata/_edit_group_ = true
 
 [node name="Falling" type="Node2D" parent="."]
 visible = false
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.5, 0.5)
 
 [node name="Trail" type="Sprite2D" parent="Falling"]
 position = Vector2(-34.75, -7)
@@ -807,7 +807,7 @@ texture = ExtResource("5_1jxqw")
 
 [node name="Flying" type="Node2D" parent="."]
 visible = false
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.5, 0.5)
 
 [node name="Trail" type="Sprite2D" parent="Flying"]
 visible = false
@@ -832,7 +832,7 @@ texture = ExtResource("6_x7c3f")
 
 [node name="Grounded" type="Node2D" parent="."]
 visible = false
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.5, 0.5)
 
 [node name="Body" type="Sprite2D" parent="Grounded"]
 rotation = 1.5708
@@ -840,7 +840,7 @@ texture = ExtResource("1_4flbx")
 
 [node name="Grabbing" type="Node2D" parent="."]
 visible = false
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.5, 0.5)
 
 [node name="Body" type="Sprite2D" parent="Grabbing"]
 position = Vector2(19.75, 0)
@@ -857,16 +857,19 @@ scale = Vector2(0.8, 0.8)
 [node name="Splash" type="Sprite2D" parent="Death"]
 visible = false
 position = Vector2(19, 0)
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("19_pylmc")
 
 [node name="AnimatedBody" type="AnimatedSprite2D" parent="Death"]
 position = Vector2(20, 2)
 rotation = 1.5708
+scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_2lfai")
 
 [node name="AnimatedCloud" type="AnimatedSprite2D" parent="Death"]
 position = Vector2(20, 2)
 rotation = 1.5708
+scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_onrkg")
 
 [node name="Eyes" type="Sprite2D" parent="Death"]

@@ -4,21 +4,21 @@ class_name Game
 signal game_initialized
 signal game_finished
 
-const SIDE = 80
-const SPACE = 40
+const SIDE = 48
+const SPACE = 24
 
 @export_group("Game Settings")
 @export var max_wheels := 50
-@export var start_wheel_position := Vector2(750, -680)
-@export var start_wheel_ray := 312
+@export var start_wheel_position := Vector2(450, -408)
+@export var start_wheel_ray := 187
 @export var start_wheel_speed := 1.2
 @export var dif_randomizer := 0.03
 
 @export_group("Wheel Settings")
-@export_range(100, 1000, 25) var wheel_dist_min := 400
-@export_range(100, 1000, 25) var wheel_dist_max := 550
-@export var wheel_ray_min = 60
-@export var wheel_ray_max  = 250
+@export_range(100, 1000, 25) var wheel_dist_min := 240
+@export_range(100, 1000, 25) var wheel_dist_max := 330
+@export var wheel_ray_min = 36
+@export var wheel_ray_max  = 150
 @export var wheel_ray_random = 50
 @export_range(1, TAU, 0.1, 'radians_as_degrees') var wheel_speed_min = 2
 @export_range(1, TAU, 0.1, 'radians_as_degrees') var wheel_speed_max = 10
@@ -33,6 +33,7 @@ var wheels = []
 func _ready() -> void:
 	$Player.connect("request_focus", Callable(self, "_on_request_focus"))
 	$WallTiles.update_internals()
+	new_game()
 	
 func remove_child_nodes(node: Node2D):
 	for n in node.get_children():
@@ -64,7 +65,7 @@ func _on_request_focus(target: Node2D, offset: float) -> void:
 		$Camera2D.camera_offset_target = Vector2(0, offset)
 
 func _process(_delta):
-	GameState.set_depth(abs(int($Player.position.y / 20)))
+	GameState.set_depth(abs(int($Player.position.y / 12)))
 
 func end_game():
 	game_finished.emit()
@@ -116,17 +117,17 @@ func initPastilles():
 	var y = -500
 	while y > wheels[wheels.size() - 1].position.y:
 		
-		var circle = ColorRect.new()
-		circle.color = Color(1, 0, 1, 0.5)
-		circle.size = Vector2(25, 25)
-		circle.position = Vector2(747.5, y)
-		add_child(circle)
+		#var circle = ColorRect.new()
+		#circle.color = Color(1, 0, 1, 0.5)
+		#circle.size = Vector2(25, 25)
+		#circle.position = Vector2(450, y)
+		#add_child(circle)
 		
 		#print(y / wheels[wheels.size() - 1].position.y)
 		if GameState.rng.randf() < y/wheels[wheels.size() - 1].position.y:
 			var p = pastille_scene.instantiate()
 			var m = SIDE + p.ray
-			p.position.x = GameState.rng.randf_range(m, 1500 - m)
+			p.position.x = GameState.rng.randf_range(m, 900 - m)
 			p.position.y = y
 			$Pastilles.add_child(p)
 			# list.push(p)
