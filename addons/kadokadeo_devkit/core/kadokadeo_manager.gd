@@ -40,10 +40,11 @@ var api_client: ApiClient = ApiClient.new()
 var crypto: KadoCrypto = KadoCrypto.new()
 #var replay_recorder: ReplayRecorder
 #var replay_player: ReplayPlayer
-var loading_screen: Control
 var is_initialized_flag: bool = false
 var run_details: StartRunData
 var score := 0
+var time_offset_with_server: float = 0.0
+var rng = RandomNumberGenerator.new()
 
 func _init() -> void:
 	if OS.is_debug_build():
@@ -108,7 +109,10 @@ func start_game_session() -> void:
 		# print(response.data)
 		run_details = StartRunData.new(response.data)
 		run_status = RunStatus.STARTED
-		score = 0
+		time_offset_with_server = run_details.server_time - Time.get_unix_time_from_system()
+		rng.seed = hash(run_details.seed)
+		rng.state = 0
+		update_score(0)
 	else:
 		run_status = RunStatus.ERROR
 
@@ -123,7 +127,7 @@ func end_game_session() -> void:
 		var end_run_request = {
 			'run_id': run_details.run_id,
 			'score': score,
-			'timestamp': run_details.server_time
+			'timestamp': (Time.get_unix_time_from_system() + time_offset_with_server) as int,
 		}
 		var payload = crypto.prepare_payload(JSON.stringify(end_run_request))
 		api_client.post_request(endpoint, {
@@ -137,10 +141,7 @@ func update_score(new_score: int) -> void:
 	if not is_initialized_flag:
 		push_error("KadokadeoDevKit: Must initialize before updating score")
 		return
-		
-	if run_status != RunStatus.STARTED:
-		push_warning("KadokadeoDevKit: Updating score without active session")
-		
+
 	score = new_score
 	var percent = clamp((score as float / run_details.contract_score as float) * 100.0, 0, 100)
 	contract_updated.emit(run_details.contract_points, run_details.contract_score, percent)

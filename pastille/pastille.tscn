@@ -135,6 +135,8 @@ texture = ExtResource("6_3nkai")
 [node name="PastilleSprite" type="Sprite2D" parent="."]
 
 [node name="OuterArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OuterArea"]
 shape = SubResource("CircleShape2D_gmae4")

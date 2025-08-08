@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://8n4qf5wsfupm"
-path="res://.godot/imported/69_Chubby Cheeks.ttf-92f7e4367ea1db56871645bb48a3d90b.fontdata"
+uid="uid://bklklu27x68wy"
+path="res://.godot/imported/Fredoka-Medium.ttf-47066982c976450b1bd347e14dfe6888.fontdata"
 
 [deps]
 
-source_file="res://fonts/69_Chubby Cheeks.ttf"
-dest_files=["res://.godot/imported/69_Chubby Cheeks.ttf-92f7e4367ea1db56871645bb48a3d90b.fontdata"]
+source_file="res://addons/kadokadeo_devkit/fonts/Fredoka-Medium.ttf"
+dest_files=["res://.godot/imported/Fredoka-Medium.ttf-47066982c976450b1bd347e14dfe6888.fontdata"]
 
 [params]
 

@@ -9,7 +9,7 @@ const WHEEL_LAYER = 1 << 1
 # angle_variation is how much the wheel can deviate from that direction (in radians)
 static func place_around(context: Node2D, target: Node2D, dist: float, ray: float, main_direction: float = -PI / 2, angle_variation: float = 1.4) -> Vector2:
 	for _i in 30:
-		var angle = main_direction + GameState.rng.randf_range(-1, 1) * angle_variation
+		var angle = main_direction + KadokadeoManager.rng.randf_range(-1, 1) * angle_variation
 		var pos = target.position + (Vector2(cos(angle), sin(angle)) * dist)
 		var clear = is_position_clear(context, target, pos, ray)
 		if clear:
@@ -31,8 +31,8 @@ static func place_between(context: Node2D, w1: Node2D, w2: Node2D, ray: float) -
 	if r2.is_empty():
 		x[0] = w1.position.x - context.wheel_dist_max
 	
-	for _i in 30:
-		pos.x = GameState.rng.randf_range(x[0], x[1])
+	for _i in 5:
+		pos.x = KadokadeoManager.rng.randf_range(x[0], x[1])
 
 		if is_position_clear(context, w1, pos, ray):
 			return pos
@@ -44,8 +44,8 @@ static func place_between(context: Node2D, w1: Node2D, w2: Node2D, ray: float) -
 #	var r_min = wheel_ray
 #	var r_max = wheel_ray + margin
 #	for _i in 30:
-#		var angle = GameState.rng.randf_range(0, TAU)
-#		var r = sqrt(GameState.rng.randf_range(r_min * r_min, r_max * r_max))
+#		var angle = KadokadeoManager.rng.randf_range(0, TAU)
+#		var r = sqrt(KadokadeoManager.rng.randf_range(r_min * r_min, r_max * r_max))
 #		if is_position_clear(context, from, Vector2(cos(angle), sin(angle)) * r, r_min):
 #			# Ensure the point is at least r_min away from the center
 #			if r >= r_min:
@@ -78,11 +78,11 @@ static func is_position_clear(context: Node2D, from: Node2D, pos: Vector2, ray: 
 	var result2 = space_state.intersect_ray(query2)
 	var collided = !result2.is_empty()
 
-	#if OS.is_debug_build():
-	#	var circle = ColorRect.new()
-	#	circle.color = Color(1, 0, 0, 0.1) if result.size() > 0 || collided else Color(0, 1, 0, 0.1)
-	#	circle.size = Vector2(ray * 2, ray * 2)
-	#	circle.position = pos - Vector2(ray, ray)
-	#	context.add_child(circle)
+	if OS.is_debug_build():
+		var circle = ColorRect.new()
+		circle.color = Color(1, 0, 0, 0.1) if result.size() > 0 || collided else Color(0, 1, 0, 0.1)
+		circle.size = Vector2(ray * 2, ray * 2)
+		circle.position = pos - Vector2(ray, ray)
+		context.add_child(circle)
 	
 	return result.size() == 0 && !collided

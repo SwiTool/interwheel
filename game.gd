@@ -29,6 +29,7 @@ const pastille_scene = preload("res://pastille/pastille.tscn")
 var is_end = true
 
 var wheels = []
+var max_height := 0 
 
 func _ready() -> void:
 	$Player.connect("request_focus", Callable(self, "_on_request_focus"))
@@ -65,11 +66,13 @@ func _on_request_focus(target: Node2D, offset: float) -> void:
 		$Camera2D.camera_offset_target = Vector2(0, offset)
 
 func _process(_delta):
-	GameState.set_depth(abs(int($Player.position.y / 12)))
-
-func end_game():
-	game_finished.emit()
-	$GameOver.fade_in(2.0)
+	var player_y = abs($Player.position.y) / 3
+	var dx = int(player_y - max_height)
+	if dx > 0:
+		GameState.add_score(dx)
+	max_height = max(max_height, player_y)
+	var depth = int(max_height * 0.2)
+	GameState.set_depth(depth)
 
 func spawn_wheel(pos: Vector2, ray: float, speed: float) -> Node2D:
 	var ow = wheel_scene.instantiate()
@@ -86,13 +89,13 @@ func initWheels() -> void:
 
 	for i: float in max_wheels:
 		#print('wheel ', i)
-		var c = clampf((i / max_wheels) + GameState.rng.randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
-		var c2 = clampf((i / max_wheels) + GameState.rng.randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
-		var c3 = clampf((i / max_wheels) + GameState.rng.randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
+		var c = clampf((i / max_wheels) + KadokadeoManager.rng.randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
+		var c2 = clampf((i / max_wheels) + KadokadeoManager.rng.randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
+		var c3 = clampf((i / max_wheels) + KadokadeoManager.rng.randf_range(0, 1) * dif_randomizer, 0.0, 1.0)
 		#print('wheel %d: %.2f / %.2f / %.2f' % [i + 1, c, c2, c3])
 
-		var ray = wheel_ray_min + (1 - c2) * (wheel_ray_max - wheel_ray_min) + GameState.rng.randf_range(0, wheel_ray_random)
-		var speed = wheel_speed_min + c3 * (wheel_speed_max - wheel_speed_min) + GameState.rng.randf_range(0, wheel_speed_random)
+		var ray = wheel_ray_min + (1 - c2) * (wheel_ray_max - wheel_ray_min) + KadokadeoManager.rng.randf_range(0, wheel_ray_random)
+		var speed = wheel_speed_min + c3 * (wheel_speed_max - wheel_speed_min) + KadokadeoManager.rng.randf_range(0, wheel_speed_random)
 		var dist = wheel_dist_min + c * (wheel_dist_max - wheel_dist_min) + (ow.ray + ray)
 		var p = WheelPlacer.place_around(self, ow, dist, ray)
 		if p == Vector2.ZERO:
@@ -100,13 +103,13 @@ func initWheels() -> void:
 			break
 		var w = spawn_wheel(p, ray, speed)
 
-		while GameState.rng.randf() + 0.4 < c:
+		while KadokadeoManager.rng.randf() + 0.4 < c:
 			w.addMine();
 
 		# // INTER WHEEL
-		if GameState.rng.randf() > c:
-			var i_ray = GameState.rng.randf_range(wheel_ray_min + 50, wheel_ray_max - wheel_ray_min)
-			var i_speed = GameState.rng.randf_range(wheel_speed_min, wheel_speed_max - wheel_speed_min)
+		if KadokadeoManager.rng.randf() > c:
+			var i_ray = KadokadeoManager.rng.randf_range(wheel_ray_min + 50, wheel_ray_max - wheel_ray_min)
+			var i_speed = KadokadeoManager.rng.randf_range(wheel_speed_min, wheel_speed_max - wheel_speed_min)
 			var i_pos = WheelPlacer.place_between(self, ow, w, i_ray)
 			if i_pos != Vector2.ZERO:
 				spawn_wheel(i_pos, i_ray, i_speed)
@@ -114,7 +117,7 @@ func initWheels() -> void:
 		ow = w
 
 func initPastilles():
-	var y = -500
+	var y = -300
 	while y > wheels[wheels.size() - 1].position.y:
 		
 		#var circle = ColorRect.new()
@@ -124,18 +127,20 @@ func initPastilles():
 		#add_child(circle)
 		
 		#print(y / wheels[wheels.size() - 1].position.y)
-		if GameState.rng.randf() < y/wheels[wheels.size() - 1].position.y:
+		if KadokadeoManager.rng.randf() < y/wheels[wheels.size() - 1].position.y:
 			var p = pastille_scene.instantiate()
 			var m = SIDE + p.ray
-			p.position.x = GameState.rng.randf_range(m, 900 - m)
+			p.position.x = KadokadeoManager.rng.randf_range(m, 900 - m)
 			p.position.y = y
 			$Pastilles.add_child(p)
 			# list.push(p)
-		y -= 100
+		y -= 60
 
 
 func _on_player_death() -> void:
-	end_game()
+	game_finished.emit()
+	$BottomBar.visible = false
+	$HUD.visible = false
 
 func _on_camera_bounds_body_entered(_body: Node2D) -> void:
 	var shape := $CameraBounds/CollisionShape2D.shape as RectangleShape2D
@@ -149,7 +154,3 @@ func _on_camera_bounds_body_entered(_body: Node2D) -> void:
 	$Camera2D.limit_top = int(shape_pos.y - half_size.y)
 	$Camera2D.limit_bottom = int(shape_pos.y + half_size.y)
 
-
-func _on_game_over_play_again() -> void:
-	$GameOver.fade_out(0.2)
-	new_game()

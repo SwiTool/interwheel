@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://daawmlne8124b" path="res://loading_screen.gd" id="1_fgney"]
 [ext_resource type="StyleBox" uid="uid://kdyv47g7owuf" path="res://ui/panel_back.tres" id="1_weff3"]
 [ext_resource type="Texture2D" uid="uid://cju1e6kn3h7dx" path="res://shapes/57.svg" id="2_fgney"]
-[ext_resource type="FontFile" uid="uid://8n4qf5wsfupm" path="res://fonts/69_Chubby Cheeks.ttf" id="3_74xf4"]
+[ext_resource type="FontFile" uid="uid://8n4qf5wsfupm" path="res://addons/kadokadeo_devkit/fonts/Chubby Cheeks.ttf" id="3_74xf4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pa1l2"]
 font = ExtResource("3_74xf4")

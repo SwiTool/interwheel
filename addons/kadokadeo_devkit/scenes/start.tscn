@@ -1,0 +1,100 @@
+[gd_scene load_steps=8 format=3 uid="uid://cu8ppkyk6l0i3"]
+
+[ext_resource type="Script" uid="uid://s23yi8q4vbd6" path="res://addons/kadokadeo_devkit/scenes/start.gd" id="1_2epnw"]
+[ext_resource type="Texture2D" uid="uid://tdyaf5o3vl40" path="res://addons/kadokadeo_devkit/ui/default_artwork.jpg" id="1_y1861"]
+[ext_resource type="Texture2D" uid="uid://cbdii03jhjqa4" path="res://addons/kadokadeo_devkit/ui/bottom_bar.png" id="2_2epnw"]
+[ext_resource type="FontFile" uid="uid://hgeg7hgd3e0n" path="res://addons/kadokadeo_devkit/fonts/Fredoka-Bold.ttf" id="3_uo62m"]
+
+[sub_resource type="Animation" id="Animation_uo62m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Button/TextureRect/Label:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_2epnw"]
+resource_name = "blink"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Button/TextureRect/Label:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rwqwo"]
+_data = {
+&"RESET": SubResource("Animation_uo62m"),
+&"blink": SubResource("Animation_2epnw")
+}
+
+[node name="Start" type="CanvasLayer"]
+script = ExtResource("1_2epnw")
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ArtworkTexture" type="TextureRect" parent="Button"]
+custom_minimum_size = Vector2(0, 900)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 900.0
+grow_horizontal = 2
+texture = ExtResource("1_y1861")
+expand_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="Button"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -68.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_2epnw")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="Button/TextureRect"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -297.0
+offset_right = 297.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.392157, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_uo62m")
+theme_override_font_sizes/font_size = 45
+text = "Cliquer pour commencer"
+horizontal_alignment = 1
+vertical_alignment = 2
+uppercase = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rwqwo")
+}

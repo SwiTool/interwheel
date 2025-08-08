@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://bs176q10nx0xh"]
+[gd_scene load_steps=5 format=3 uid="uid://bs176q10nx0xh"]
 
 [ext_resource type="Script" uid="uid://buudlk6uki4jc" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://cu8ppkyk6l0i3" path="res://addons/kadokadeo_devkit/scenes/start.tscn" id="2_h2yge"]
+[ext_resource type="Texture2D" uid="uid://ctg0tiwo50w3a" path="res://ui/artwork.jpg" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://dfe20vfbfncux" path="res://game_over.tscn" id="4_1bvp3"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_0xm2m")
+
+[node name="Start" parent="." instance=ExtResource("2_h2yge")]
+artwork = ExtResource("3_1bvp3")
+
+[node name="GameReceiver" type="Node" parent="."]
+
+[node name="GameOver" parent="." instance=ExtResource("4_1bvp3")]
+visible = false

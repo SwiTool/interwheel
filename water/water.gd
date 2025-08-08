@@ -1,9 +1,9 @@
 extends Node2D
 
 @export var water_timer := 0
-@export var water_speed := 30.0
-@export var water_speed_increment := 1.5
-@export var start_position := 1500.0
+@export var water_speed := 30
+@export var water_speed_increment := 0.0009
+@export var start_position := 900.0
 var water_boost: float = 0.0
 
 func _ready() -> void:

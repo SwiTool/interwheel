@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwsnns8mcpx03"
-path="res://.godot/imported/topBarPointsKado.png-aa3085308a5c94c2120c5cf51e77382a.ctex"
+uid="uid://ctg0tiwo50w3a"
+path="res://.godot/imported/artwork.jpg-d33575b42dcede535ac38cf044b7f227.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://topBarPointsKado.png"
-dest_files=["res://.godot/imported/topBarPointsKado.png-aa3085308a5c94c2120c5cf51e77382a.ctex"]
+source_file="res://ui/artwork.jpg"
+dest_files=["res://.godot/imported/artwork.jpg-d33575b42dcede535ac38cf044b7f227.ctex"]
 
 [params]
 

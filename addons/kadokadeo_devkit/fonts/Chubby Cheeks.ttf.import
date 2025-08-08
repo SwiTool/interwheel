@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://nfp2byltpbhr"
-path="res://.godot/imported/Itim-Regular.ttf-93132e14ba6e61f219e8742a9eea75e7.fontdata"
+uid="uid://8n4qf5wsfupm"
+path="res://.godot/imported/Chubby Cheeks.ttf-558cdb1c464246b8c05afc3679534015.fontdata"
 
 [deps]
 
-source_file="res://fonts/Itim-Regular.ttf"
-dest_files=["res://.godot/imported/Itim-Regular.ttf-93132e14ba6e61f219e8742a9eea75e7.fontdata"]
+source_file="res://addons/kadokadeo_devkit/fonts/Chubby Cheeks.ttf"
+dest_files=["res://.godot/imported/Chubby Cheeks.ttf-558cdb1c464246b8c05afc3679534015.fontdata"]
 
 [params]
 

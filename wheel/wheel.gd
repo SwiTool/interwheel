@@ -29,7 +29,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		queue_redraw()
 	if possible_wheels.size() > 0:
-		texture = possible_wheels[GameState.rng.randi() % possible_wheels.size()]
+		texture = possible_wheels[KadokadeoManager.rng.randi() % possible_wheels.size()]
 	else:
 		push_error("No wheels available to set texture.")
 	$CollisionShape2D.shape = CircleShape2D.new()
@@ -75,7 +75,7 @@ func addMine():
 	var mineAngle := 0.0
 	for tr1 in 20:
 		var flBreak = true
-		mineAngle = GameState.rng.randf_range(0, TAU)
+		mineAngle = KadokadeoManager.rng.randf_range(0, TAU)
 		for i in minesCount:
 			#var mine = $MinesList.get_child(i)
 			#var da = abs(wrapf(mine.angle, -PI, PI))

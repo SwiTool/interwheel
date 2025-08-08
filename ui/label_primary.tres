@@ -1,6 +1,6 @@
 [gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://xkvgksg7bl4x"]
 
-[ext_resource type="FontFile" uid="uid://hgeg7hgd3e0n" path="res://fonts/Fredoka-Bold.ttf" id="1_2ihms"]
+[ext_resource type="FontFile" uid="uid://hgeg7hgd3e0n" path="res://addons/kadokadeo_devkit/fonts/Fredoka-Bold.ttf" id="1_2ihms"]
 
 [resource]
 font = ExtResource("1_2ihms")

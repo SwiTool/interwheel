@@ -36,7 +36,6 @@ func fade_out(duration := 1.0):
 
 
 func _on_play_again_pressed() -> void:
-	GameState.reset()
 	emit_signal('play_again')
 
 func format_number_with_spaces(n: int) -> String:

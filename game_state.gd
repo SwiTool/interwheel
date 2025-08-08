@@ -9,12 +9,6 @@ var jump_count: int = 0
 var pastilles_eaten_count: Dictionary = {}
 var plunge_count: int = 0
 
-var rng = RandomNumberGenerator.new()
-
-func _ready():
-	if OS.is_debug_build():
-		rng.seed = 123
-
 func reset():
 	KadokadeoManager.update_score(0)
 	depth = 0
@@ -26,10 +20,8 @@ func reset():
 func set_depth(_depth: int):
 	if (_depth > max_depth):
 		max_depth = _depth
-		var dif = _depth - depth
 		depth = _depth
 		emit_signal("depth_changed", depth)
-		add_score((dif * 5) / 0.6)
 
 func add_score(value: int):
 	KadokadeoManager.update_score(KadokadeoManager.score + value)

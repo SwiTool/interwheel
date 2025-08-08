@@ -11,7 +11,7 @@ var ray = 15
 
 func _ready() -> void:
 	for p in pastilles:
-		var rnd = GameState.rng.randf()
+		var rnd = KadokadeoManager.rng.randf()
 		if rnd <= p.probability:
 			pastille = p	
 			
