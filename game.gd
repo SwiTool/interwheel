@@ -128,12 +128,26 @@ func initPastilles():
 		
 		#print(y / wheels[wheels.size() - 1].position.y)
 		if KadokadeoManager.rng.randf() < y/wheels[wheels.size() - 1].position.y:
-			var p = pastille_scene.instantiate()
-			var m = SIDE + p.ray
-			p.position.x = KadokadeoManager.rng.randf_range(m, 900 - m)
-			p.position.y = y
-			$Pastilles.add_child(p)
-			# list.push(p)
+			var m = SIDE + Pastille.ray
+			var ppos = Vector2(KadokadeoManager.rng.randf_range(m, 900 - m), y)
+				
+			var shape := CircleShape2D.new()
+			shape.radius = Pastille.ray + 2
+
+			var params := PhysicsShapeQueryParameters2D.new()
+			params.collide_with_areas = true
+			params.shape = shape
+			params.transform = Transform2D.IDENTITY.translated(ppos)
+			params.collision_mask = 1 << 0 | 1 << 1
+			params.collide_with_bodies = true
+
+			var space_state = self.get_world_2d().direct_space_state
+			var result = space_state.intersect_shape(params, 1)
+			if result.size() == 0:
+				var p = pastille_scene.instantiate()
+				p.position = ppos
+				$Pastilles.add_child(p)
+
 		y -= 60
 
 

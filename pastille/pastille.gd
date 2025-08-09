@@ -1,4 +1,5 @@
 extends Area2D
+class_name Pastille
 
 @export var acceleration := 42.0  # force d’attraction
 @export var max_speed := 1200.0
@@ -7,7 +8,7 @@ extends Area2D
 var pastille: PointToken
 var velocity = Vector2.ZERO
 var magnetized_by : Area2D = null
-var ray = 15
+static var ray = 15
 
 func _ready() -> void:
 	for p in pastilles:

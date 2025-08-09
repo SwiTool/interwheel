@@ -78,11 +78,11 @@ static func is_position_clear(context: Node2D, from: Node2D, pos: Vector2, ray: 
 	var result2 = space_state.intersect_ray(query2)
 	var collided = !result2.is_empty()
 
-	if OS.is_debug_build():
-		var circle = ColorRect.new()
-		circle.color = Color(1, 0, 0, 0.1) if result.size() > 0 || collided else Color(0, 1, 0, 0.1)
-		circle.size = Vector2(ray * 2, ray * 2)
-		circle.position = pos - Vector2(ray, ray)
-		context.add_child(circle)
+	#if OS.is_debug_build():
+	#	var circle = ColorRect.new()
+	#	circle.color = Color(1, 0, 0, 0.1) if result.size() > 0 || collided else Color(0, 1, 0, 0.1)
+	#	circle.size = Vector2(ray * 2, ray * 2)
+	#	circle.position = pos - Vector2(ray, ray)
+	#	context.add_child(circle)
 	
 	return result.size() == 0 && !collided
