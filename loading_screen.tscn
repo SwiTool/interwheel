@@ -1,9 +1,11 @@
 [gd_scene load_steps=6 format=3 uid="uid://dnhg6v84e6210"]
 
 [ext_resource type="Script" uid="uid://daawmlne8124b" path="res://loading_screen.gd" id="1_fgney"]
-[ext_resource type="StyleBox" uid="uid://kdyv47g7owuf" path="res://ui/panel_back.tres" id="1_weff3"]
 [ext_resource type="Texture2D" uid="uid://cju1e6kn3h7dx" path="res://shapes/57.svg" id="2_fgney"]
-[ext_resource type="FontFile" uid="uid://8n4qf5wsfupm" path="res://addons/kadokadeo_devkit/fonts/Chubby Cheeks.ttf" id="3_74xf4"]
+[ext_resource type="FontFile" uid="uid://d0tsrry46ybfk" path="res://fonts/Chubby Cheeks.ttf" id="3_74xf4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_weff3"]
+bg_color = Color(0.890196, 0.890196, 0.890196, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_pa1l2"]
 font = ExtResource("3_74xf4")
@@ -19,7 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("1_weff3")
+theme_override_styles/panel = SubResource("StyleBoxFlat_weff3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2

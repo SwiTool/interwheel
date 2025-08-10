@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bk75x265ktjwr"]
 
 [ext_resource type="Script" uid="uid://bc23opj2nprms" path="res://hud.gd" id="1_8sq4i"]
-[ext_resource type="FontFile" uid="uid://8n4qf5wsfupm" path="res://addons/kadokadeo_devkit/fonts/Chubby Cheeks.ttf" id="1_37p78"]
+[ext_resource type="FontFile" uid="uid://d0tsrry46ybfk" path="res://fonts/Chubby Cheeks.ttf" id="1_37p78"]
 [ext_resource type="Texture2D" uid="uid://bipydydp5rhi3" path="res://shapes/68.svg" id="1_64ctp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_64ctp"]
