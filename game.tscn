@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://c2q6ro4o1qg2f"]
+[gd_scene load_steps=18 format=4 uid="uid://c2q6ro4o1qg2f"]
 
 [ext_resource type="Texture2D" uid="uid://dj378aiuon4vi" path="res://atlas_bg.png" id="1_eow3j"]
 [ext_resource type="Script" uid="uid://citobk71ik4oo" path="res://game.gd" id="1_j5wjh"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://bf6hr057sun2x" path="res://addons/kadokadeo_devkit/scenes/bottom_bar.tscn" id="9_iotsf"]
 [ext_resource type="PackedScene" uid="uid://boi2lbuq28pod" path="res://water/water.tscn" id="9_vef74"]
 [ext_resource type="PackedScene" uid="uid://dnhg6v84e6210" path="res://loading_screen.tscn" id="10_hve3p"]
-[ext_resource type="PackedScene" uid="uid://coiek5rhydn50" path="res://mine/mine.tscn" id="11_mfdv2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vef74"]
 size = Vector2(900, 35940)
@@ -132,9 +131,6 @@ position = Vector2(0, -1500)
 [node name="BottomBar" parent="." instance=ExtResource("9_iotsf")]
 
 [node name="LoadingScreen" parent="." instance=ExtResource("10_hve3p")]
-
-[node name="Mine" parent="." instance=ExtResource("11_mfdv2")]
-position = Vector2(65, -343)
 
 [connection signal="body_entered" from="CameraBounds" to="." method="_on_camera_bounds_body_entered"]
 [connection signal="death" from="Player" to="." method="_on_player_death"]

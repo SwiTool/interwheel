@@ -5,6 +5,7 @@ var angle : float
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == 'Player' && !body.is_dead:
 		call_deferred('detach_and_explode')
+		body.velocity = Vector2.ZERO
 		body.set_state(body.STATES.DEATH)
 		body.get_node('Death/Splash').visible = true
 

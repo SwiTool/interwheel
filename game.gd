@@ -167,4 +167,3 @@ func _on_camera_bounds_body_entered(_body: Node2D) -> void:
 	$Camera2D.limit_right = int(shape_pos.x + half_size.x)
 	$Camera2D.limit_top = int(shape_pos.y - half_size.y)
 	$Camera2D.limit_bottom = int(shape_pos.y + half_size.y)
-
