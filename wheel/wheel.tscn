@@ -26,7 +26,7 @@ scale_curve = SubResource("CurveTexture_4bsp4")
 radius = 300.0
 
 [node name="Wheel" type="Area2D"]
-rotation = 1.51717
+rotation = 2.33725
 collision_layer = 2
 collision_mask = 12
 script = ExtResource("1_e0ure")
@@ -47,6 +47,13 @@ process_material = SubResource("ParticleProcessMaterial_3j83c")
 [node name="MinesList" type="Node2D" parent="."]
 
 [node name="WheelMesh" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="WheelMesh"]
+visible = false
+offset = Vector2(-300, -300)
+texture = ExtResource("2_gwn81")
+polygon = PackedVector2Array(0, 0, 600, 0, 600, 600, 0, 600)
+uv = PackedVector2Array(0, 0, 505, 0, 505, 505, 0, 505)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_djrm3")

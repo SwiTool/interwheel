@@ -23,7 +23,7 @@ var angle := 0.0
 			$WheelMesh/Mesh.mesh.size = sprite_size * scale_factor
 		queue_redraw()
 
-var wheel: MeshInstance2D
+var wheel: Polygon2D
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
@@ -36,19 +36,28 @@ func _ready() -> void:
 	$CollisionShape2D.shape.radius = ray
 	wheel = spawn_wheel()
 
-func spawn_wheel() -> MeshInstance2D:
+func spawn_wheel() -> Polygon2D:
 	var sprite_size = texture.get_size()
 	var scale_factor = ray * 2 / sprite_size.x
-	var quad = QuadMesh.new()
-	quad.size = sprite_size * scale_factor
+	var p = Polygon2D.new()
+	var size = sprite_size * scale_factor
+	p.offset = -size / 2
+	p.texture = texture
+	p.polygon = PackedVector2Array([
+		Vector2(0, 0),
+		Vector2(size.x, 0),
+		size,
+		Vector2(0, size.y),
+	])
+	p.uv = PackedVector2Array([
+		Vector2(0, 0),
+		Vector2(sprite_size.x, 0),
+		sprite_size,
+		Vector2(0, sprite_size.y),
+	])
 
-	var mi = MeshInstance2D.new()
-	mi.mesh = quad
-	mi.texture = texture
-	mi.name = 'Mesh'
-
-	$WheelMesh.add_child(mi)
-	return mi
+	$WheelMesh.add_child(p)
+	return p
 
 func _process(_delta: float) -> void:
 	pass
