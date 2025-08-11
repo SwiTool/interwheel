@@ -3,7 +3,7 @@ extends Node2D
 @export var water_timer := 0
 @export var water_speed := 30
 @export var water_speed_increment := 0.0009
-@export var start_position := 900.0
+@export var start_position := 0.0
 var water_boost: float = 0.0
 
 func _ready() -> void:
@@ -16,8 +16,9 @@ func reset():
 func _physics_process(delta: float) -> void:
 	water_boost += water_speed_increment * delta
 	position.y -= (water_speed + water_boost) * delta
-	$MeshInstance2D.mesh.size.y += (water_speed + water_boost) * delta
-	$MeshInstance2D.mesh.center_offset.y = $MeshInstance2D.mesh.size.y / 2
+	#$Polygon2D.polygon[1].y = position.y
+	#$Polygon2D.polygon[2].y = position.y
+	#$Polygon2D.offset.y += (water_speed + water_boost) * delta
 
 
 func _on_top_area_body_entered(body: Node2D) -> void:

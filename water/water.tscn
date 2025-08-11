@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://chemoynhvd4v3" path="res://water/water.gd" id="1_m8een"]
 [ext_resource type="Shader" uid="uid://cmq22hdo0hhjh" path="res://water/water.gdshader" id="1_qi1wl"]
+[ext_resource type="Texture2D" uid="uid://ctg0tiwo50w3a" path="res://ui/artwork.jpg" id="3_6c1kg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dcmoc"]
 size = Vector2(900, 900)
@@ -9,19 +10,20 @@ size = Vector2(900, 900)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmoj4"]
 size = Vector2(900, 450)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7wcun"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m8een"]
 shader = ExtResource("1_qi1wl")
 shader_parameter/strength = 0.01
 shader_parameter/noise_scale = 3.0
 shader_parameter/noise_speed = 0.7
 shader_parameter/rect_color = Color(0.380392, 0.827451, 0.898039, 0.901961)
-
-[sub_resource type="QuadMesh" id="QuadMesh_dcmoc"]
-size = Vector2(900, 1800)
-center_offset = Vector3(0, 900, 0)
+shader_parameter/foam_height_px = 20.0
+shader_parameter/foam_feather_px = 15.0
 
 [node name="Water" type="Node2D"]
 script = ExtResource("1_m8een")
+water_speed = 40
+water_speed_increment = 0.01
+start_position = 200.0
 
 [node name="TopArea" type="Area2D" parent="."]
 collision_layer = 32
@@ -41,10 +43,11 @@ position = Vector2(450, 675)
 shape = SubResource("RectangleShape2D_qmoj4")
 debug_color = Color(0.996078, 0, 0.192157, 0.109804)
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-material = SubResource("ShaderMaterial_7wcun")
-position = Vector2(450, 0)
-mesh = SubResource("QuadMesh_dcmoc")
+[node name="Polygon2D" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_m8een")
+texture = ExtResource("3_6c1kg")
+polygon = PackedVector2Array(0, 0, 0, 18000, 900, 18000, 900, 0)
+uv = PackedVector2Array(0, 0, 0, 900, 900, 900, 900, 0)
 
 [connection signal="body_entered" from="TopArea" to="." method="_on_top_area_body_entered"]
 [connection signal="body_exited" from="TopArea" to="." method="_on_top_area_body_exited"]
